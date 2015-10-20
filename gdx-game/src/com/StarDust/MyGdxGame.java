@@ -1,49 +1,51 @@
 package com.StarDust;
 
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class MyGdxGame implements ApplicationListener
 {
-	Texture texture;
-	SpriteBatch batch;
+	private static Skin uiSkin;
+	StageManager stageManager;
 
-	@Override
 	public void create()
 	{
-		texture = new Texture(Gdx.files.internal("android.jpg"));
-		batch = new SpriteBatch();
+		uiSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
+		stageManager = new StageManager();
 	}
 
-	@Override
 	public void render()
-	{        
-	    Gdx.gl.glClearColor(1, 1, 1, 1);
+	{
+	    Gdx.gl.glClearColor(0, 0, 0, 0);
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(texture, Gdx.graphics.getWidth() / 4, 0, 
-				   Gdx.graphics.getWidth() / 2, Gdx.graphics.getWidth() / 2);
-		batch.end();
+		stageManager.getCurrentStage().act(Gdx.graphics.getDeltaTime());
+		stageManager.getCurrentStage().draw();
 	}
 
-	@Override
 	public void dispose()
 	{
 	}
 
-	@Override
 	public void resize(int width, int height)
 	{
+		stageManager.getCurrentStage().getViewport().update(width, height);
+		Camera camera = stageManager.getCurrentStage().getCamera();
+		camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2,0);
 	}
 
-	@Override
 	public void pause()
 	{
 	}
 
-	@Override
 	public void resume()
 	{
+	}
+	
+	public static Skin getUISkin()
+	{
+		return uiSkin;
 	}
 }
