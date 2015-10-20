@@ -6,6 +6,7 @@ import com.StarDust.stage.BaseStage;
 import com.StarDust.stage.StageType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class StageManager
 {
@@ -51,10 +52,10 @@ public class StageManager
 		currentStage = stage;
 		Gdx.input.setInputProcessor(stage);
 		stage.updateOnNavigation();
-		stage.getViewport().apply();
-		stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		Camera camera = stage.getCamera();
-		camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2,0);
+		Viewport viewport = stage.getViewport();
+		viewport.apply();
+		viewport.update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		viewport.setScreenPosition(viewport.getScreenWidth()/2, viewport.getScreenHeight()/2);
 		//stage.setDebugAll(true);
 	}
 	

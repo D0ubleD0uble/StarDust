@@ -24,7 +24,7 @@ public class SparseAsteroidStage extends BaseMissionStage
 	@Override
 	public void updateOnNavigation()
 	{
-		this.getCamera().position.set(-(Gdx.graphics.getWidth()/2), -(Gdx.graphics.getHeight()/2), 0);		
+		this.getViewport().setScreenPosition(-(Gdx.graphics.getWidth()/2), -(Gdx.graphics.getHeight()/2));
 		numberOfAsteroids = 100;
 		for(int i = 0; i < numberOfAsteroids; i++)
 		{

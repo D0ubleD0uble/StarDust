@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class MyGdxGame implements ApplicationListener
 {
@@ -32,8 +33,8 @@ public class MyGdxGame implements ApplicationListener
 	public void resize(int width, int height)
 	{
 		stageManager.getCurrentStage().getViewport().update(width, height);
-		Camera camera = stageManager.getCurrentStage().getCamera();
-		camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2,0);
+		Viewport viewport = stageManager.getCurrentStage().getViewport();
+		viewport.setScreenPosition(viewport.getScreenWidth()/2, viewport.getScreenWidth()/2);
 	}
 
 	public void pause()
