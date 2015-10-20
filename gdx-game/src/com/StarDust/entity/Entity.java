@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.StarDust.entity.helper.*;
 
 /**
     Any Object which can be displayed
@@ -26,6 +28,7 @@ public class Entity extends Actor
 		this.texture = texture;
 		setOrigin(texture.getWidth()/2, texture.getHeight()/2);
 		setBounds(getX(),getY(),texture.getWidth(),texture.getHeight());
+		setUpInputListener();
 	}
 	
 	public String getDisplayName()
@@ -41,6 +44,13 @@ public class Entity extends Actor
 	@Override
 	public void draw(Batch batch, float alpha)
 	{
+		if (selected)
+		{
+			Selection selection = new Selection(this.getWidth(), this.getHeight());
+			selection.setX(this.getX());
+			selection.setY(this.getY());
+			selection.draw(batch, alpha);
+		}
 		batch.draw(texture,this.getX(), this.getY(),this.getOriginX(),this.getOriginY(),this.getWidth(), this.getHeight(),this.getScaleX(), this.getScaleY(),this.getRotation(),0,0, texture.getWidth(),texture.getHeight(),false,false);
 	}
 
@@ -101,5 +111,21 @@ public class Entity extends Actor
 	public Texture getTexture()
 	{
 		return texture;
+	}
+	
+	private void setUpInputListener()
+	{
+		InputListener listener = new InputListener(){
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				selected = !selected;
+				return true;
+			}
+			
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				
+			}
+		};
+		
+		this.addListener(listener);
 	}
 }

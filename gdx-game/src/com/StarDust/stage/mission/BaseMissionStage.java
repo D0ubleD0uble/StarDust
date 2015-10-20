@@ -34,11 +34,22 @@ public abstract class BaseMissionStage extends BaseStage
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button)
 	{
-		if (pointer == 0)
+		boolean handled = super.touchDown(screenX, screenY, pointer, button);
+		if (!handled && pointer == 0)
 		{
 			moveToTouch = new Touch(screenX, screenY, pointer, button);
 		}
-		return super.touchDown(screenX, screenY, pointer, button);
+		return handled;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer)
+	{
+		if (moveToTouch != null && pointer == 0)
+		{
+			moveToTouch = new Touch(screenX, screenY, pointer, 0);
+		}
+		return super.touchDragged(screenX, screenY, pointer);
 	}
 
 	@Override

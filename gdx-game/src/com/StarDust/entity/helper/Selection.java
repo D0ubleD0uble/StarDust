@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public class Selection extends Entity
 {
-	Table debugTable;
 	
 	private enum POSITION {
 		BOTTOM_LEFT,
@@ -19,12 +18,12 @@ public class Selection extends Entity
 		TOP_RIGHT
 	}
 	
-	public Selection(int width, int height, Table table)
+	public Selection(float width, float height)
 	{
 		super(EntityType.SELECTION, createSelectionTexture());
+		this.setScale(0.25f);
 		this.setWidth(width);
 		this.setHeight(height);
-		this.debugTable = table;
 	}
 
 	@Override
@@ -43,35 +42,36 @@ public class Selection extends Entity
 	public void draw(Batch batch, POSITION pos)
 	{
 		float drawnRotation = 0;
-		int xMod = 0;
-		int yMod = 0;
+		float xMod = 0;
+		float yMod = 0;
+		float modAmount = 0;
 		
 		switch(pos)
 		{
 			case BOTTOM_LEFT:
-					xMod = -8;
-					yMod = -8;
+					xMod = -modAmount;
+					yMod = -modAmount;
 					drawnRotation = 90f;
 					break;
 			case BOTTOM_RIGHT:
-					xMod = (int)this.getWidth() + 8;
-					yMod = -8;
+					xMod = this.getWidth() + modAmount;
+					yMod = -modAmount;
 					drawnRotation = 180f;
 					break;
 			case TOP_LEFT:
-					xMod = (int)this.getWidth() + 8;
-					yMod = (int)this.getHeight() + 8;
-					drawnRotation = 0f;
+					xMod = this.getWidth() + modAmount;
+					yMod = this.getHeight() + modAmount;
+					drawnRotation = 270f;
 					break;
 			case TOP_RIGHT:
-					xMod = -8;
-					yMod = (int)this.getHeight() + 8;
-					drawnRotation = 270f;
+					xMod = -modAmount;
+					yMod = this.getHeight() + modAmount;
+					drawnRotation = 0f;
 					break;
 		}
 		
 		batch.draw(getTexture(),
-				this.getX()+xMod, this.getY()+yMod,
+				this.getX()+xMod-(getTexture().getWidth()/2), this.getY()+yMod-(getTexture().getHeight()/2),
 				this.getOriginX(),this.getOriginY(),
 				getTexture().getWidth(), getTexture().getHeight(),
 				this.getScaleX(), this.getScaleY(),
@@ -79,8 +79,6 @@ public class Selection extends Entity
 				0,0, 
 				getTexture().getWidth(), getTexture().getHeight(),
 				false,false);
-		debugTable.row();
-		debugTable.add(new Label(drawnRotation+"", MyGdxGame.getUISkin()));
 	}
 	
 	private static Texture createSelectionTexture()
