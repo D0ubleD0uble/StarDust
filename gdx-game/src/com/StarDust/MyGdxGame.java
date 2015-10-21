@@ -33,8 +33,8 @@ public class MyGdxGame implements ApplicationListener
 	public void resize(int width, int height)
 	{
 		stageManager.getCurrentStage().getViewport().update(width, height);
-		Viewport viewport = stageManager.getCurrentStage().getViewport();
-		viewport.setScreenPosition(viewport.getScreenWidth()/2, viewport.getScreenWidth()/2);
+		Camera camera = stageManager.getCurrentStage().getCamera();
+		camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2,0);
 	}
 
 	public void pause()

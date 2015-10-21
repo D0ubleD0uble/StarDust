@@ -22,8 +22,7 @@ public abstract class BaseMissionStage extends BaseStage
 		    player.moveTo(stageCoordinates);
 		}
 		super.act(delta);
-		this.getViewport().setScreenX((int)(player.getX()+player.getOriginX()));
-		this.getViewport().setScreenY((int)(player.getY()+player.getOriginY()));
+		this.getCamera().position.set(player.getX()+player.getOriginX(), player.getY()+player.getOriginY(), 0);
 	}
 	
 	public void setPlayer(Entity entity)
