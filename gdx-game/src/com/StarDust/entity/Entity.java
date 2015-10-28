@@ -1,17 +1,16 @@
 package com.StarDust.entity;
 
-import com.StarDust.entity.helper.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.input.GestureDetector.*;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.utils.*;
+import java.util.ArrayList;
 
 import com.StarDust.entity.helper.Selection;
-import java.util.*;
-import com.StarDust.*;
-import com.StarDust.stage.mission.*;
+import com.StarDust.stage.mission.BaseMissionStage;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 
 /**
     Any Object which can be displayed
@@ -126,6 +125,7 @@ public class Entity extends Group
 	
 	public void stopMoving()
 	{
+		//TODO NEEDS TO CHANGE
 		this.currentVelocity.x = 0;
 		this.currentVelocity.y = 0;
 		//moveToPosition = null;
@@ -196,7 +196,7 @@ public class Entity extends Group
 	public float getNextRotation(float delta)
 	{
 		float now = (getRotation()+360)%360;
-		float target = (desiredRotation+360)%360;
+		float target = (desiredRotation-getTotalRotation(this.getParent())+360)%360;
 		if (now - target > 180) target += 360;
 		if (target - now > 180) now += 360;
 		
@@ -219,6 +219,14 @@ public class Entity extends Group
 	public Texture getTexture()
 	{
 		return texture;
+	}
+	
+	public float getTotalRotation(Group g)
+	{
+		if (g != null)
+			return getTotalRotation(g.getParent()) + this.getRotation();
+		
+		return 0.00f;
 	}
 	
 	private void setUpInputListener()

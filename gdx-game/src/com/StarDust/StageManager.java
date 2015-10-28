@@ -6,7 +6,6 @@ import com.StarDust.stage.BaseStage;
 import com.StarDust.stage.StageType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class StageManager
 {

@@ -1,7 +1,6 @@
 package com.StarDust.stage.mission;
 import com.StarDust.MyGdxGame;
 import com.StarDust.entity.Asteroid;
-import com.StarDust.entity.helper.Selection;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
