@@ -3,13 +3,15 @@ import com.StarDust.StageManager;
 import com.StarDust.stage.BaseStage;
 import com.StarDust.stage.StageType;
 import com.badlogic.gdx.scenes.scene2d.utils.Selection;
+import com.StarDust.entity.components.*;
 
 public enum EntityType
 {
 	ASTEROID("Asteroid", Asteroid.class, StageType.SPARSEASTEROID),
 	HARVESTER("Harvester", Harvester.class, StageType.HANGAR),
 	PILOT("Pilot", Pilot.class, StageType.RECRUITMENT),
-	SELECTION("Selection", Selection.class, StageType.MAINMENU);
+	SELECTION("Selection", Selection.class, StageType.MAINMENU),
+	TURRET("Turret", Turret.class, StageType.MAINMENU);
 	
 	//private final String texturePath;
 	String name;

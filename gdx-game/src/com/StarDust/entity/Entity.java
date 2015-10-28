@@ -1,26 +1,38 @@
 package com.StarDust.entity;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.*;
 import com.StarDust.entity.helper.*;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.input.GestureDetector.*;
+import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.utils.*;
+
+import com.StarDust.entity.helper.Selection;
+import java.util.*;
+import com.StarDust.*;
+import com.StarDust.stage.mission.*;
 
 /**
     Any Object which can be displayed
 **/
-public class Entity extends Actor
+public class Entity extends Group
 {
 	private EntityType entityType;
 	private Texture texture;
+	
 	private Vector2 moveToPosition;
-	boolean moveReached = true;
 	private Vector2 currentVelocity = new Vector2(0, 0);
 	private float acceleration = 50f;
-	//private float maxVelocity = 50;
+	
+	private Vector2 rotateToPosition;
+	private float desiredRotation;
+	private float rotateSpeed = 180f;
+	
+	private ArrayList<Entity> targets;
 	
 	boolean selected = false;
+	boolean aggressed = false;
 	
 	public Entity(EntityType entityType, Texture texture)
 	{
@@ -29,6 +41,7 @@ public class Entity extends Actor
 		setOrigin(texture.getWidth()/2, texture.getHeight()/2);
 		setBounds(getX(),getY(),texture.getWidth(),texture.getHeight());
 		setUpInputListener();
+		targets = new ArrayList<Entity>();
 	}
 	
 	public String getDisplayName()
@@ -44,34 +57,50 @@ public class Entity extends Actor
 	@Override
 	public void draw(Batch batch, float alpha)
 	{
-		if (selected)
+		if (selected || aggressed)
 		{
 			Selection selection = new Selection(this.getWidth(), this.getHeight());
 			selection.setX(this.getX());
 			selection.setY(this.getY());
+			selection.setRotation(0f - this.getRotation());
+			if (aggressed)
+			{
+				selection.setColor(Color.RED);
+			}
 			selection.draw(batch, alpha);
 		}
 		batch.draw(texture,this.getX(), this.getY(),this.getOriginX(),this.getOriginY(),this.getWidth(), this.getHeight(),this.getScaleX(), this.getScaleY(),this.getRotation(),0,0, texture.getWidth(),texture.getHeight(),false,false);
+		super.draw(batch, alpha);
 	}
 
 	@Override
 	public void act(float delta)
 	{
+		//May need to split this up later, possibly should move everything, then calculate other things
 		if (moveToPosition!=null)
 		{
-			Vector2 offset = new Vector2(moveToPosition.x - this.getX(), moveToPosition.y - this.getY());
-			currentVelocity.add(offset.nor().scl(acceleration*delta));
-			moveToPosition = null;
+			//Vector2 offset = new Vector2(moveToPosition.x - (this.getX()+this.getOriginX()), moveToPosition.y - (this.getY()+this.getOriginY()));
+			//currentVelocity.add(offset.nor().scl(acceleration*delta));
+			//moveToPosition = null;
 		}
-		this.setX(this.getX()+(currentVelocity.x*delta));
-		this.setY(this.getY()+(currentVelocity.y*delta));
+		//this.setX(this.getX()+(currentVelocity.x*delta));
+		//this.setY(this.getY()+(currentVelocity.y*delta));
+		Vector2 nextPosition = getNextPosition(delta);
+		this.setPosition(nextPosition.x, nextPosition.y);
+		
+		if (moveToPosition!=null && rotateToPosition!=null)
+		{
+			this.rotateTo(moveToPosition, rotateToPosition);
+			rotateToPosition = null;
+		}
+		this.setRotation(getNextRotation(delta));
+		
 		super.act(delta);
 	}
 	
 	public void moveTo(Vector2 stageCoordinates)
 	{
 		this.moveToPosition = stageCoordinates;
-		moveReached = false;
 		/*MoveToVelocityAccel moveAction = (MoveToVelocityAccel)getCurrentAction(MoveToVelocityAccel.class);
 		if (moveAction == null)
 			moveAction = new MoveToVelocityAccel();
@@ -95,9 +124,26 @@ public class Entity extends Actor
 		this.addAction(moveAction);*/
 	}
 	
+	public void stopMoving()
+	{
+		this.currentVelocity.x = 0;
+		this.currentVelocity.y = 0;
+		//moveToPosition = null;
+	}
+	
+	public void rotateTo(Vector2 fromPosition, Vector2 stageCoordinates)
+	{
+		//this.rotateToPosition = stageCoordinates;
+		double angle = Math.atan2(stageCoordinates.y - fromPosition.y, stageCoordinates.x - fromPosition.x);
+		angle = angle * (180/Math.PI);
+		angle+=180;
+		desiredRotation = (float)angle;
+	}
+	
 	public void rotateTo(float targetRotation)
 	{
-		/*DirectRotateAction rotateAction = (DirectRotateAction)getCurrentAction(DirectRotateAction.class);
+		desiredRotation = targetRotation;
+		/*DirectRotateAction rotateAction = null;//(DirectRotateAction)getCurrentAction(DirectRotateAction.class);
 		if (rotateAction == null)
 			rotateAction = new DirectRotateAction();
 		this.removeAction(rotateAction);
@@ -108,6 +154,68 @@ public class Entity extends Actor
 		this.addAction(rotateAction);*/
 	}
 	
+	public Vector2 getNextPosition(float delta)
+	{
+		if(moveToPosition!=null)
+		{
+			float timeToStop = currentVelocity.len()/acceleration;
+			double xDistanceToStop = (currentVelocity.x / 2)*timeToStop;
+			double yDistanceToStop = (currentVelocity.y / 2)*timeToStop;
+			//double distanceToStop = Math.sqrt(xDistanceToStop*xDistanceToStop+yDistanceToStop*yDistanceToStop);
+			
+			double xPropulsionVector = moveToPosition.x - xDistanceToStop - (getX()+getOriginX());
+			double yPropulsionVector = moveToPosition.y - yDistanceToStop - (getY()+getOriginY());
+			double propulsionScale = Math.sqrt(xPropulsionVector*xPropulsionVector+yPropulsionVector*yPropulsionVector);
+			Vector2 propulsion = new Vector2((float)(xPropulsionVector/propulsionScale*acceleration*delta), (float)(yPropulsionVector/propulsionScale*acceleration*delta));
+			currentVelocity.add(propulsion);
+		}
+		else
+		{
+			this.currentVelocity.x = 0;
+			this.currentVelocity.y = 0;
+			//currentVelocity.add(new Vector2(currentVelocity.x, currentVelocity.y).nor().scl(-acceleration*delta));
+		}
+		return new Vector2((float)(getX()+currentVelocity.x*delta),
+						   (float)(getY()+currentVelocity.y*delta));
+		//float timeToStop = currentVelocity.len()/acceleration;
+		/*Vector2 oldVelocity = new Vector2(currentVelocity.x, currentVelocity.y);
+		Vector2 offset;
+		if (moveToPosition!=null && !isOvershooting())
+		{
+		    offset = new Vector2(moveToPosition.x - (this.getX()+this.getOriginX()), moveToPosition.y - (this.getY()+this.getOriginY()));
+		}
+		else
+		{
+			offset = new Vector2(-currentVelocity.x, -currentVelocity.y);
+		}
+		currentVelocity.add(offset.nor().scl(acceleration*delta));
+		return new Vector2((float)(getX()+(currentVelocity.x+oldVelocity.x)*0.5*delta),
+						   (float)(getY()+(currentVelocity.y+oldVelocity.y)*0.5*delta));*/
+	}
+	
+	public float getNextRotation(float delta)
+	{
+		float now = (getRotation()+360)%360;
+		float target = (desiredRotation+360)%360;
+		if (now - target > 180) target += 360;
+		if (target - now > 180) now += 360;
+		
+		if (rotateSpeed*delta >= Math.abs(now-target)) return target;
+		if (now < target) return now+(rotateSpeed*delta);
+		if (now > target) return now-(rotateSpeed*delta);
+		return now;
+	}
+	
+	public void addTarget(Entity entity)
+	{
+		targets.add(entity);
+	}
+	
+	public ArrayList<Entity> getTargets()
+	{
+		return targets;
+	}
+	
 	public Texture getTexture()
 	{
 		return texture;
@@ -115,14 +223,18 @@ public class Entity extends Actor
 	
 	private void setUpInputListener()
 	{
-		InputListener listener = new InputListener(){
-			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				selected = !selected;
-				return true;
-			}
-			
-			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				
+		ActorGestureListener listener = new ActorGestureListener(){
+			public void tap(InputEvent event, float x, float y, int count, int button)
+			{
+				if (count == 1)
+				{
+					selected = !selected;
+				}
+				else if (count == 2)
+				{
+					aggressed = true;
+					BaseMissionStage.player.addTarget((Entity)this.getTouchDownTarget());
+				}
 			}
 		};
 		

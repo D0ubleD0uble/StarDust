@@ -50,7 +50,7 @@ public class StageManager
 	public static void setCurrentStage(BaseStage stage)
 	{
 		currentStage = stage;
-		Gdx.input.setInputProcessor(stage);
+		Gdx.input.setInputProcessor(stage.getInputMultiplexer());
 		stage.updateOnNavigation();
 		stage.getViewport().apply();
 		stage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -59,7 +59,7 @@ public class StageManager
 		//stage.setDebugAll(true);
 	}
 	
-	public BaseStage getCurrentStage()
+	public static BaseStage getCurrentStage()
 	{
 		return currentStage;
 	}

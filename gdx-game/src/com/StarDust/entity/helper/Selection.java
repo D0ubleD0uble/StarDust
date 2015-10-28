@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.graphics.*;
 
 public class Selection extends Entity
 {
@@ -70,6 +71,7 @@ public class Selection extends Entity
 					break;
 		}
 		
+		batch.setColor(this.getColor());
 		batch.draw(getTexture(),
 				this.getX()+xMod-(getTexture().getWidth()/2), this.getY()+yMod-(getTexture().getHeight()/2),
 				this.getOriginX(),this.getOriginY(),
@@ -79,6 +81,7 @@ public class Selection extends Entity
 				0,0, 
 				getTexture().getWidth(), getTexture().getHeight(),
 				false,false);
+		batch.setColor(Color.WHITE);
 	}
 	
 	private static Texture createSelectionTexture()

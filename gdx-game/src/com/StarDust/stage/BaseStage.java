@@ -1,11 +1,16 @@
 package com.StarDust.stage;
 import com.StarDust.entity.*;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.input.*;
+import com.badlogic.gdx.math.*;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.utils.viewport.*;
 import java.util.*;
 
-public abstract class BaseStage extends Stage
+public abstract class BaseStage extends Stage implements GestureDetector.GestureListener
 {
+	GestureDetector gestureDetector;
+	InputMultiplexer inputMultiplexer;
 	//A list of things the Player owns on this Stage
 	private ArrayList<Entity> purchasedEntities;
 	private boolean firstVisit = true;
@@ -13,6 +18,8 @@ public abstract class BaseStage extends Stage
 	public BaseStage()
 	{
 		super();
+		gestureDetector = new GestureDetector(this);
+		inputMultiplexer = new InputMultiplexer(gestureDetector, this);
 		purchasedEntities = new ArrayList<Entity>();
 		initializeViewport();
 		initialize();
@@ -54,9 +61,70 @@ public abstract class BaseStage extends Stage
 		return purchasedEntities;
 	}
 	
+	public InputMultiplexer getInputMultiplexer()
+	{
+		return inputMultiplexer;
+	}
+	
 	protected boolean isFirstVisit()
 	{
 		return firstVisit;
+	}
+
+	@Override
+	public boolean touchDown(float p1, float p2, int p3, int p4)
+	{
+		// TODO: Implement this method
+		return false;
+	}
+
+	@Override
+	public boolean tap(float p1, float p2, int p3, int p4)
+	{
+		// TODO: Implement this method
+		return false;
+	}
+
+	@Override
+	public boolean longPress(float p1, float p2)
+	{
+		// TODO: Implement this method
+		return false;
+	}
+
+	@Override
+	public boolean fling(float p1, float p2, int p3)
+	{
+		// TODO: Implement this method
+		return false;
+	}
+
+	@Override
+	public boolean pan(float p1, float p2, float p3, float p4)
+	{
+		// TODO: Implement this method
+		return false;
+	}
+
+	@Override
+	public boolean panStop(float p1, float p2, int p3, int p4)
+	{
+		// TODO: Implement this method
+		return false;
+	}
+
+	@Override
+	public boolean zoom(float p1, float p2)
+	{
+		// TODO: Implement this method
+		return false;
+	}
+
+	@Override
+	public boolean pinch(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4)
+	{
+		// TODO: Implement this method
+		return false;
 	}
 	
 	abstract protected void initialize();

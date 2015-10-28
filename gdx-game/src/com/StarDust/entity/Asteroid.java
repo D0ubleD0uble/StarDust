@@ -8,12 +8,12 @@ public class Asteroid extends Entity
 {
 	public Asteroid(int size)
 	{
-		super(EntityType.ASTEROID, createAsteroidTexture(64));
+		super(EntityType.ASTEROID, createAsteroidTexture(size));
 	}
 	
 	private static Texture createAsteroidTexture(int size)
 	{
-		Pixmap pixmap = new Pixmap(64, 64, Pixmap.Format.RGBA8888);
+		Pixmap pixmap = new Pixmap(size, size, Pixmap.Format.RGBA8888);
 		pixmap.setColor(Color.WHITE);
 		pixmap.drawCircle(size/2, size/2, (size/2)-1);
 		

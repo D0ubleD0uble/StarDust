@@ -1,12 +1,18 @@
 package com.StarDust.stage.mission;
-import com.StarDust.entity.Entity;
-import com.StarDust.stage.BaseStage;
-import com.badlogic.gdx.math.Vector2;
+import com.StarDust.entity.*;
+import com.StarDust.entity.components.*;
+import com.StarDust.stage.*;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.math.*;
+import com.badlogic.gdx.scenes.scene2d.*;
 
 public abstract class BaseMissionStage extends BaseStage
 {
-	Entity player;
+	public static Entity player;
 	Touch moveToTouch;
+	Touch rotateToTouch;
+	
+	float lastZoomDistance;
 	
 	public BaseMissionStage()
 	{
@@ -18,8 +24,12 @@ public abstract class BaseMissionStage extends BaseStage
 	{
 		if (moveToTouch != null)
 		{
-		    Vector2 stageCoordinates = screenToStageCoordinates(new Vector2(moveToTouch.screenX, moveToTouch.screenY));
-		    player.moveTo(stageCoordinates);
+		    player.moveTo(moveToTouch.stageCoordinates);
+			if (rotateToTouch != null)
+			{
+				player.rotateTo(moveToTouch.stageCoordinates, rotateToTouch.stageCoordinates);
+				rotateToTouch = null;
+			}
 		}
 		super.act(delta);
 		this.getCamera().position.set(player.getX()+player.getOriginX(), player.getY()+player.getOriginY(), 0);
@@ -28,7 +38,19 @@ public abstract class BaseMissionStage extends BaseStage
 	public void setPlayer(Entity entity)
 	{
 		this.player = entity;
-		this.addActor(entity);
+		player.clearListeners();
+		player.addListener(new InputListener(){
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				player.stopMoving();
+				return true;
+			}
+		});
+		this.addActor(player);
+		Turret t = new Turret();
+		t.setY((player.getHeight()/2)-(t.getHeight()/2));
+		t.setX(0);
+		t.setOwner(player);
+		player.addActor(t);
 	}
 
 	@Override
@@ -37,17 +59,24 @@ public abstract class BaseMissionStage extends BaseStage
 		boolean handled = super.touchDown(screenX, screenY, pointer, button);
 		if (!handled && pointer == 0)
 		{
-			moveToTouch = new Touch(screenX, screenY, pointer, button);
+			moveToTouch = new Touch(this, screenX, screenY, pointer, button);
 		}
+		
+		/*if (!handled && pointer == 0)
+		{
+			//this.addActor(new Label("Here", MyGdxGame.getUISkin()));
+			rotateToTouch = new Touch(screenX, screenY, pointer, button);
+		}*/
+		
 		return handled;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer)
 	{
-		if (moveToTouch != null && pointer == 0)
+		if (pointer == 0)
 		{
-			moveToTouch = new Touch(screenX, screenY, pointer, 0);
+			//moveToTouch = new Touch(this, screenX, screenY, pointer, 0);
 		}
 		return super.touchDragged(screenX, screenY, pointer);
 	}
@@ -57,19 +86,44 @@ public abstract class BaseMissionStage extends BaseStage
 	{
 		if (pointer == 0)
 		{
-			moveToTouch = null;
+			rotateToTouch = new Touch(this, screenX, screenY, pointer, button);
 		}
+		lastZoomDistance = 0;
 		return super.touchUp(screenX, screenY, pointer, button);
 	}
+
+	@Override
+	public boolean zoom(float initialDistance, float distance)
+	{
+		if (lastZoomDistance == 0)
+		{
+			lastZoomDistance = initialDistance;
+		}
+		((OrthographicCamera)getCamera()).zoom = Math.min(10, Math.max(((OrthographicCamera)getCamera()).zoom + (distance - lastZoomDistance)*0.01f, 1f));
+		lastZoomDistance = distance;
+		return false;
+	}
+
+	@Override
+	public boolean tap(float x, float y, int count, int button)
+	{
+		if (count == 2)
+		{
+			
+		}
+		return false;
+	}
+	
+	
 }
 
 class Touch
 {
-	int screenX, screenY, pointer, button;
-	public Touch(int screenX, int screenY, int pointer, int button)
+	Vector2 stageCoordinates;
+	int pointer, button;
+	public Touch(Stage stage, int screenX, int screenY, int pointer, int button)
 	{
-		this.screenX = screenX;
-		this.screenY = screenY;
+		stageCoordinates = stage.screenToStageCoordinates(new Vector2(screenX, screenY));
 		this.pointer = pointer;
 		this.button = button;
 	}
