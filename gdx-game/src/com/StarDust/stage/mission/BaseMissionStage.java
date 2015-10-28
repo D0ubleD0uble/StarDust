@@ -1,10 +1,12 @@
 package com.StarDust.stage.mission;
-import com.StarDust.entity.*;
-import com.StarDust.entity.components.*;
-import com.StarDust.stage.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.math.*;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.StarDust.entity.Entity;
+import com.StarDust.entity.components.Turret;
+import com.StarDust.stage.BaseStage;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public abstract class BaseMissionStage extends BaseStage
 {
@@ -37,7 +39,7 @@ public abstract class BaseMissionStage extends BaseStage
 	
 	public void setPlayer(Entity entity)
 	{
-		this.player = entity;
+		player = entity;
 		player.clearListeners();
 		player.addListener(new InputListener(){
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
