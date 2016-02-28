@@ -25,7 +25,7 @@ public class CheckButton extends BaseButton
 	{
 		if(chosenEntity != null)
 		{
-			return chosenEntity.getEntityType();
+			//return chosenEntity.getEntityType();
 		}
 		return new Object();
 	}

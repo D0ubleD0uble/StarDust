@@ -30,7 +30,7 @@ public class Entity extends Group
 	
 	public void addComponent(Component component)
 	{
-		this.components.put(component., value)
+		this.components.put(component.getComponentType(), component);
 	}
 	
 	/*public Entity(EntityType entityType, Texture texture)

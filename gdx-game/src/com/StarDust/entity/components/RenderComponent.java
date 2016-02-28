@@ -19,7 +19,7 @@ public class RenderComponent
 	
 	public void draw(Batch batch, float alpha)
 	{
-		if (entity.isSelected() || entity.isAggressed())
+		/*if (entity.isSelected() || entity.isAggressed())
 		{
 			Selection selection = new Selection(entity.getWidth(), entity.getHeight());
 			selection.setX(entity.getX());
@@ -39,7 +39,7 @@ public class RenderComponent
 				entity.getRotation(),
 				0, 0,
 				texture.getWidth(), texture.getHeight(),
-				false, false);
+				false, false);*/
 	}
 	
 	public Texture getTexture()

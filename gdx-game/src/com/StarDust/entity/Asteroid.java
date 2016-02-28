@@ -8,7 +8,7 @@ public class Asteroid extends Entity
 {
 	public Asteroid(int size)
 	{
-		super(EntityType.ASTEROID, createAsteroidTexture(size));
+		//super(EntityType.ASTEROID, createAsteroidTexture(size));
 	}
 	
 	private static Texture createAsteroidTexture(int size)

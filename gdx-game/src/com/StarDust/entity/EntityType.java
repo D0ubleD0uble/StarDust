@@ -8,7 +8,7 @@ import com.StarDust.entity.components.*;
 public enum EntityType
 {
 	ASTEROID("Asteroid", Asteroid.class, StageType.SPARSEASTEROID),
-	HARVESTER("Harvester", Harvester.class, StageType.HANGAR),
+	//HARVESTER("Harvester", Harvester.class, StageType.HANGAR),
 	SELECTION("Selection", Selection.class, StageType.MAINMENU),
 	TURRET("Turret", Turret.class, StageType.MAINMENU);
 	

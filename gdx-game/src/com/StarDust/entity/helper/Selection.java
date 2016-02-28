@@ -18,7 +18,7 @@ public class Selection extends Entity
 	
 	public Selection(float width, float height)
 	{
-		super(EntityType.SELECTION, createSelectionTexture());
+		//super(EntityType.SELECTION, createSelectionTexture());
 		this.setScale(0.25f);
 		this.setWidth(width);
 		this.setHeight(height);
@@ -69,7 +69,7 @@ public class Selection extends Entity
 		}
 		
 		batch.setColor(this.getColor());
-		batch.draw(getTexture(),
+		/*batch.draw(getTexture(),
 				this.getX()+xMod-(getTexture().getWidth()/2), this.getY()+yMod-(getTexture().getHeight()/2),
 				this.getOriginX(),this.getOriginY(),
 				getTexture().getWidth(), getTexture().getHeight(),
@@ -77,7 +77,7 @@ public class Selection extends Entity
 				drawnRotation,
 				0,0, 
 				getTexture().getWidth(), getTexture().getHeight(),
-				false,false);
+				false,false);*/
 		batch.setColor(Color.WHITE);
 	}
 	

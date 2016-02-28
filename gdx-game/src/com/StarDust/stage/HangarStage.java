@@ -40,7 +40,7 @@ public class HangarStage extends BaseStage
 		scrollTable.clear();
 		for (Entity entity : getPurchasedEntities())
 		{
-			scrollTable.add(new TextButton(entity.getDisplayName(), MyGdxGame.getUISkin()));
+			//scrollTable.add(new TextButton(entity.getDisplayName(), MyGdxGame.getUISkin()));
 		}
 	}
 }

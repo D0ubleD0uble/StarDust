@@ -80,7 +80,7 @@ public class DeployStage extends BaseStage
 		entityGroup.setMaxCheckCount(1);
 		for(Entity e : StageManager.getStage(StageType.HANGAR).getPurchasedEntities())
 		{
-			CheckButton button = new CheckButton(e.getDisplayName());
+			CheckButton button = new CheckButton("Todo Here");
 			button.setChosenEntity(e);
 			entityGroup.add(button);
 			entityTable.add(button);

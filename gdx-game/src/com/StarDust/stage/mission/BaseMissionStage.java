@@ -26,12 +26,12 @@ public abstract class BaseMissionStage extends BaseStage
 	{
 		if (moveToTouch != null)
 		{
-		    player.physicsComponent.moveTo(moveToTouch.stageCoordinates);
+		    /*player.physicsComponent.moveTo(moveToTouch.stageCoordinates);
 			if (rotateToTouch != null)
 			{
 				player.physicsComponent.rotateTo(moveToTouch.stageCoordinates, rotateToTouch.stageCoordinates);
 				rotateToTouch = null;
-			}
+			}*/
 		}
 		super.act(delta);
 		this.getCamera().position.set(player.getX()+player.getOriginX(), player.getY()+player.getOriginY(), 0);
@@ -43,7 +43,7 @@ public abstract class BaseMissionStage extends BaseStage
 		player.clearListeners();
 		player.addListener(new InputListener(){
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				player.physicsComponent.stopMoving();
+				//player.physicsComponent.stopMoving();
 				return true;
 			}
 		});
