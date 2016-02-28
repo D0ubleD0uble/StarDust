@@ -7,6 +7,7 @@ import com.StarDust.entity.Entity;
 import com.StarDust.entity.EntityFactory;
 import com.StarDust.system.Render;
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class MyGdxGame implements ApplicationListener
 {
@@ -53,8 +54,10 @@ public class MyGdxGame implements ApplicationListener
 	{
 	}
 	
-	/*public static Skin getUISkin()
+	public static Skin getUISkin()
 	{
-		return uiSkin;
-	}*/
+		System.out.println("returning null skin");
+		return null;
+		//return uiSkin;
+	}
 }
