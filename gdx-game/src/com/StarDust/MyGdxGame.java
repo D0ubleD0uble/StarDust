@@ -13,7 +13,7 @@ public class MyGdxGame implements ApplicationListener
 {
 	//private static Skin uiSkin;
 	//StageManager stageManager;
-	Render renderSystem = new Render();
+	Render renderSystem;
 	public static List<Entity> allEntities;
 	Entity testPlayer;
 
@@ -21,6 +21,7 @@ public class MyGdxGame implements ApplicationListener
 	{
 		//uiSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
 		allEntities = new ArrayList<Entity>();
+		renderSystem = new Render();
 		System.out.println("Game created");
 		//stageManager = new StageManager();
 	}
