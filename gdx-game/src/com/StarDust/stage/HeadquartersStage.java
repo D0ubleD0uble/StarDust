@@ -23,10 +23,6 @@ public class HeadquartersStage extends BaseStage
 		table.add(cashLabel);
 		
 		table.row();
-		NavigationButton recruitmentOffice = new NavigationButton("Recruitment Office", StageType.RECRUITMENT);
-		table.add(recruitmentOffice);
-		
-		table.row();
 		NavigationButton constructionYard = new NavigationButton("Construction Yard", StageType.CONSTRUCTIONYARD);
 		table.add(constructionYard);
 		

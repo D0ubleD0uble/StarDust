@@ -64,7 +64,7 @@ public class DeployStage extends BaseStage
 		missionGroup.add(missionButton);
 		missionTable.add(missionButton);
 		
-		pilotTable.clear();
+		/*pilotTable.clear();
 		ButtonGroup pilotGroup = new ButtonGroup();
 		pilotGroup.setMaxCheckCount(1);
 		for(Entity e : StageManager.getStage(StageType.RECRUITMENT).getPurchasedEntities())
@@ -73,7 +73,7 @@ public class DeployStage extends BaseStage
 			button.setChosenEntity(e);
 			pilotGroup.add(button);
 			pilotTable.add(button);
-		}
+		}*/
 		
 		entityTable.clear();
 		ButtonGroup entityGroup = new ButtonGroup();
@@ -86,7 +86,6 @@ public class DeployStage extends BaseStage
 			entityTable.add(button);
 		}
 		
-		this.missionButton.setPilotGroup(pilotGroup);
 		this.missionButton.setShipGroup(entityGroup);
 		this.missionButton.setMissionStage(StageType.SPARSEASTEROID);
 	}

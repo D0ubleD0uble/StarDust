@@ -8,8 +8,7 @@ public enum StageType
 	HEADQUARTERS("Headquarters", HeadquartersStage.class),
 	HANGAR("Hangar", HangarStage.class),
 	MAINMENU("MainMenu", MainMenuStage.class),
-	SPARSEASTEROID("SparseAsteroid", SparseAsteroidStage.class),
-	RECRUITMENT("Recruitment", RecruitmentStage.class);
+	SPARSEASTEROID("SparseAsteroid", SparseAsteroidStage.class);
 	
 	String stageName;
 	Class<?> stageClass;
