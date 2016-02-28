@@ -27,7 +27,7 @@ public class MyGdxGame implements ApplicationListener
 
 	public void render()
 	{
-		StageManager.getCurrentStage().act(Gdx.graphics.getDeltaTime());
+		//StageManager.getCurrentStage().act(Gdx.graphics.getDeltaTime());
 		//StageManager.getCurrentStage().draw();
 		renderSystem.render(allEntities);
 	}
