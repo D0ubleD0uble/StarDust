@@ -54,8 +54,8 @@ public class Render
 	    	    //If they do need to be set, would probably have to add the information to {@link Image} Component.
 	    	float scaleX = 1;
 	    	float scaleY = 1;
-	    	int originX = image.getImage().getWidth()/2;
-	    	int originY = image.getImage().getHeight()/2;
+	    	int originX = image.width/2;
+	    	int originY = image.height/2;
 	    	int sourceX = 0;
 	    	int sourceY = 0;
 	    	int sourceWidth = image.width;

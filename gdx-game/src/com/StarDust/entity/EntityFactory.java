@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class EntityFactory
 {
-	static public Entity createHarvester()
+	 public static Entity createHarvester()
 	{
 		Entity entity = new Entity();
 		entity.addComponent(new Image(createHarvesterTexture()));

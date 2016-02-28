@@ -16,17 +16,21 @@ public class MyGdxGame implements ApplicationListener
 	//StageManager stageManager;
 	Render renderSystem = new Render();
 	public static List<Entity> allEntities;
+	Entity testPlayer;
 
 	public void create()
 	{
 		uiSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
 		allEntities = new ArrayList<Entity>();
-		Entity testPlayer = EntityFactory.createHarvester();
 		//stageManager = new StageManager();
 	}
 
 	public void render()
 	{
+		if (testPlayer == null)
+		{
+			testPlayer = EntityFactory.createHarvester();
+		}
 		//StageManager.getCurrentStage().act(Gdx.graphics.getDeltaTime());
 		//StageManager.getCurrentStage().draw();
 		renderSystem.render(allEntities);
