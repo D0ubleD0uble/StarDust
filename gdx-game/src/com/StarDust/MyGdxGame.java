@@ -7,37 +7,31 @@ import com.StarDust.entity.Entity;
 import com.StarDust.entity.EntityFactory;
 import com.StarDust.system.Render;
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class MyGdxGame implements ApplicationListener
 {
-	//private static Skin uiSkin;
+	private static Skin uiSkin;
 	//StageManager stageManager;
 	Render renderSystem;
 	public static List<Entity> allEntities;
-	Entity testPlayer;
 
 	public void create()
 	{
-		//uiSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
+		uiSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
 		allEntities = new ArrayList<Entity>();
 		renderSystem = new Render();
-		System.out.println("Game created");
-		//stageManager = new StageManager();
+		
+		//testing functionality
+		Entity player = EntityFactory.createHarvester();
 	}
 
 	public void render()
 	{
-		System.out.println("Begin of render");
-		if (testPlayer == null)
-		{
-			testPlayer = EntityFactory.createHarvester();
-			System.out.println("Harvester created");
-		}
 		//StageManager.getCurrentStage().act(Gdx.graphics.getDeltaTime());
 		//StageManager.getCurrentStage().draw();
 		renderSystem.render(allEntities);
-		System.out.println("Finished render");
 	}
 
 	public void dispose()
@@ -61,8 +55,6 @@ public class MyGdxGame implements ApplicationListener
 	
 	public static Skin getUISkin()
 	{
-		System.out.println("returning null skin");
-		return null;
-		//return uiSkin;
+		return uiSkin;
 	}
 }

@@ -23,19 +23,19 @@ public class PhysicsComponent
 	
 	public void act(float delta)
 	{
-		Vector2 nextPosition = getNextPosition(delta);
-		entity.setPosition(nextPosition.x, nextPosition.y);
+		//Vector2 nextPosition = getNextPosition(delta);
+		//entity.setPosition(nextPosition.x, nextPosition.y);
 		
 		if (moveToPosition!=null && rotateToPosition!=null)
 		{
 			this.rotateTo(moveToPosition, rotateToPosition);
 			rotateToPosition = null;
 		}
-		entity.setRotation(getNextRotation(delta));
+		//entity.setRotation(getNextRotation(delta));
 	}
 	
-	public Vector2 getNextPosition(float delta)
-	{
+	//public Vector2 getNextPosition(float delta)
+	/*{
 		if(moveToPosition!=null)
 		{
 			float timeToStop = currentVelocity.len()/acceleration;
@@ -43,11 +43,11 @@ public class PhysicsComponent
 			double yDistanceToStop = (currentVelocity.y / 2)*timeToStop;
 			//double distanceToStop = Math.sqrt(xDistanceToStop*xDistanceToStop+yDistanceToStop*yDistanceToStop);
 			
-			double xPropulsionVector = moveToPosition.x - xDistanceToStop - (entity.getX()+entity.getOriginX());
-			double yPropulsionVector = moveToPosition.y - yDistanceToStop - (entity.getY()+entity.getOriginY());
-			double propulsionScale = Math.sqrt(xPropulsionVector*xPropulsionVector+yPropulsionVector*yPropulsionVector);
-			Vector2 propulsion = new Vector2((float)(xPropulsionVector/propulsionScale*acceleration*delta), (float)(yPropulsionVector/propulsionScale*acceleration*delta));
-			currentVelocity.add(propulsion);
+			//double xPropulsionVector = moveToPosition.x - xDistanceToStop - (entity.getX()+entity.getOriginX());
+			//double yPropulsionVector = moveToPosition.y - yDistanceToStop - (entity.getY()+entity.getOriginY());
+			//double propulsionScale = Math.sqrt(xPropulsionVector*xPropulsionVector+yPropulsionVector*yPropulsionVector);
+			//Vector2 propulsion = new Vector2((float)(xPropulsionVector/propulsionScale*acceleration*delta), (float)(yPropulsionVector/propulsionScale*acceleration*delta));
+			//currentVelocity.add(propulsion);
 		}
 		else
 		{
@@ -55,10 +55,10 @@ public class PhysicsComponent
 			this.currentVelocity.y = 0;
 			//currentVelocity.add(new Vector2(currentVelocity.x, currentVelocity.y).nor().scl(-acceleration*delta));
 		}
-		return new Vector2((float)(entity.getX()+currentVelocity.x*delta),
-						   (float)(entity.getY()+currentVelocity.y*delta));
+		//return new Vector2((float)(entity.getX()+currentVelocity.x*delta),
+		//				   (float)(entity.getY()+currentVelocity.y*delta));
 		//float timeToStop = currentVelocity.len()/acceleration;
-		/*Vector2 oldVelocity = new Vector2(currentVelocity.x, currentVelocity.y);
+		Vector2 oldVelocity = new Vector2(currentVelocity.x, currentVelocity.y);
 		Vector2 offset;
 		if (moveToPosition!=null && !isOvershooting())
 		{
@@ -70,26 +70,26 @@ public class PhysicsComponent
 		}
 		currentVelocity.add(offset.nor().scl(acceleration*delta));
 		return new Vector2((float)(getX()+(currentVelocity.x+oldVelocity.x)*0.5*delta),
-						   (float)(getY()+(currentVelocity.y+oldVelocity.y)*0.5*delta));*/
-	}
+						   (float)(getY()+(currentVelocity.y+oldVelocity.y)*0.5*delta));
+	}*/
 	
-	public float getNextRotation(float delta)
-	{
-		float now = (entity.getRotation()+360)%360;
-		float target = (desiredRotation-getTotalRotation(entity.getParent())+360)%360;
-		if (now - target > 180) target += 360;
-		if (target - now > 180) now += 360;
+	//public float getNextRotation(float delta)
+	//{
+		//float now = (entity.getRotation()+360)%360;
+		//float target = (desiredRotation-getTotalRotation(entity.getParent())+360)%360;
+		//if (now - target > 180) target += 360;
+		//if (target - now > 180) now += 360;
 		
-		if (rotateSpeed*delta >= Math.abs(now-target)) return target;
-		if (now < target) return now+(rotateSpeed*delta);
-		if (now > target) return now-(rotateSpeed*delta);
-		return now;
-	}
+		//if (rotateSpeed*delta >= Math.abs(now-target)) return target;
+		//if (now < target) return now+(rotateSpeed*delta);
+		//if (now > target) return now-(rotateSpeed*delta);
+		//return now;
+	//}
 	
 	public float getTotalRotation(Group g)
 	{
-		if (g != null)
-			return getTotalRotation(g.getParent()) + entity.getRotation();
+		//if (g != null)
+			//return getTotalRotation(g.getParent()) + entity.getRotation();
 		
 		return 0.00f;
 	}

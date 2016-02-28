@@ -7,15 +7,10 @@ import java.util.Map;
 import com.StarDust.MyGdxGame;
 import com.StarDust.entity.components.Component;
 import com.StarDust.entity.components.ComponentType;
-import com.badlogic.gdx.scenes.scene2d.Group;
 
-public class Entity extends Group
+public class Entity
 {
-	private EntityType entityType;
 	private Map<ComponentType, Component> components;
-	/*private RenderComponent renderComponent;
-	private TargetableComponent targetableComponent;
-	public PhysicsComponent physicsComponent;*/
 	
 	private ArrayList<Entity> targets;
 	
@@ -92,19 +87,4 @@ public class Entity extends Group
 	{
 		return targets;
 	}
-	
-	/*public Texture getTexture()
-	{
-		return renderComponent.getTexture();
-	}
-	
-	public boolean isSelected()
-	{
-		return targetableComponent.isSelected();
-	}
-	
-	public boolean isAggressed()
-	{
-		return targetableComponent.isAggressed();
-	}*/
 }

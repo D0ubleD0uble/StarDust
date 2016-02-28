@@ -1,9 +1,4 @@
 package com.StarDust.stage.mission;
-import com.StarDust.MyGdxGame;
-import com.StarDust.entity.Asteroid;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public class SparseAsteroidStage extends BaseMissionStage
 {
@@ -20,7 +15,7 @@ public class SparseAsteroidStage extends BaseMissionStage
 		
 	}
 
-	@Override
+	/*@Override
 	public void updateOnNavigation()
 	{
 		this.getCamera().position.set(-(Gdx.graphics.getWidth()/2), -(Gdx.graphics.getHeight()/2), 0);
@@ -39,5 +34,5 @@ public class SparseAsteroidStage extends BaseMissionStage
 		//table.add(new Label(this.getCamera().position.x + "," + this.getCamera().position.y, MyGdxGame.getUISkin()));
 		table.row();
 		//table.add(new Label(this.getViewport().getScreenX() + "," + this.getViewport().getScreenY(), MyGdxGame.getUISkin()));
-	}
+	}*/
 }

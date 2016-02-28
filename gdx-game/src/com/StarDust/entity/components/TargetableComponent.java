@@ -22,12 +22,12 @@ public class TargetableComponent
 				else if (count == 2)
 				{
 					aggressed = !aggressed;
-					BaseMissionStage.player.addTarget((Entity)this.getTouchDownTarget());
+					//BaseMissionStage.player.addTarget((Entity)this.getTouchDownTarget());
 				}
 			}
 		};
 		
-		entity.addListener(listener);
+		//entity.addListener(listener);
 	}
 	
 	public boolean isSelected()

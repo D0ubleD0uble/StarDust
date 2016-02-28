@@ -34,10 +34,10 @@ public abstract class BaseMissionStage extends BaseStage
 			}*/
 		}
 		super.act(delta);
-		this.getCamera().position.set(player.getX()+player.getOriginX(), player.getY()+player.getOriginY(), 0);
+		//this.getCamera().position.set(player.getX()+player.getOriginX(), player.getY()+player.getOriginY(), 0);
 	}
 	
-	public void setPlayer(Entity entity)
+	/*public void setPlayer(Entity entity)
 	{
 		player = entity;
 		player.clearListeners();
@@ -53,7 +53,7 @@ public abstract class BaseMissionStage extends BaseStage
 		t.setX(0);
 		t.setOwner(player);
 		player.addActor(t);
-	}
+	}*/
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button)
