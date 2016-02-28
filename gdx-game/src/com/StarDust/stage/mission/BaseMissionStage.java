@@ -26,10 +26,10 @@ public abstract class BaseMissionStage extends BaseStage
 	{
 		if (moveToTouch != null)
 		{
-		    player.moveTo(moveToTouch.stageCoordinates);
+		    player.physicsComponent.moveTo(moveToTouch.stageCoordinates);
 			if (rotateToTouch != null)
 			{
-				player.rotateTo(moveToTouch.stageCoordinates, rotateToTouch.stageCoordinates);
+				player.physicsComponent.rotateTo(moveToTouch.stageCoordinates, rotateToTouch.stageCoordinates);
 				rotateToTouch = null;
 			}
 		}
@@ -43,7 +43,7 @@ public abstract class BaseMissionStage extends BaseStage
 		player.clearListeners();
 		player.addListener(new InputListener(){
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				player.stopMoving();
+				player.physicsComponent.stopMoving();
 				return true;
 			}
 		});

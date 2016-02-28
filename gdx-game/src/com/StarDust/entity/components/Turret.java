@@ -17,7 +17,7 @@ public class Turret extends Entity
 		if (owner.getTargets().size() > 0)
 		{
 		    Entity target = owner.getTargets().get(0);
-		    rotateTo(this.localToStageCoordinates(new Vector2(this.getX(), this.getY())), target.localToStageCoordinates(new Vector2(target.getX(), target.getY())));
+		    physicsComponent.rotateTo(this.localToStageCoordinates(new Vector2(this.getX(), this.getY())), target.localToStageCoordinates(new Vector2(target.getX(), target.getY())));
 		}
 		super.act(delta);
 	}
