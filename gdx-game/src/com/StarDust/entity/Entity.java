@@ -1,7 +1,11 @@
 package com.StarDust.entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.StarDust.entity.components.Component;
+import com.StarDust.entity.components.ComponentType;
 import com.StarDust.entity.components.PhysicsComponent;
 import com.StarDust.entity.components.RenderComponent;
 import com.StarDust.entity.components.TargetableComponent;
@@ -12,13 +16,24 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 public class Entity extends Group
 {
 	private EntityType entityType;
-	private RenderComponent renderComponent;
+	private Map<ComponentType, Component> components;
+	/*private RenderComponent renderComponent;
 	private TargetableComponent targetableComponent;
-	public PhysicsComponent physicsComponent;
+	public PhysicsComponent physicsComponent;*/
 	
 	private ArrayList<Entity> targets;
 	
-	public Entity(EntityType entityType, Texture texture)
+	public Entity()
+	{
+		components = new HashMap<ComponentType, Component>();
+	}
+	
+	public void addComponent(Component component)
+	{
+		this.components.put(component., value)
+	}
+	
+	/*public Entity(EntityType entityType, Texture texture)
 	{
 		this.entityType = entityType;
 		this.renderComponent = new RenderComponent(this, texture);
@@ -27,9 +42,9 @@ public class Entity extends Group
 		setBounds(getX(),getY(),texture.getWidth(),texture.getHeight());
 		this.targetableComponent = new TargetableComponent(this);
 		targets = new ArrayList<Entity>();
-	}
+	}*/
 	
-	public String getDisplayName()
+	/*public String getDisplayName()
 	{
 		return entityType.getName();
 	}
@@ -37,22 +52,22 @@ public class Entity extends Group
 	public EntityType getEntityType()
 	{
 		return entityType;
-	}
+	}*/
 	
-	@Override
+	/*@Override
 	public void draw(Batch batch, float alpha)
 	{
 		renderComponent.draw(batch, alpha);
 		super.draw(batch, alpha);
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public void act(float delta)
 	{
 		physicsComponent.act(delta);
 		
 		super.act(delta);
-	}
+	}*/
 	
 	public void addTarget(Entity entity)
 	{
@@ -64,7 +79,7 @@ public class Entity extends Group
 		return targets;
 	}
 	
-	public Texture getTexture()
+	/*public Texture getTexture()
 	{
 		return renderComponent.getTexture();
 	}
@@ -77,5 +92,5 @@ public class Entity extends Group
 	public boolean isAggressed()
 	{
 		return targetableComponent.isAggressed();
-	}
+	}*/
 }
