@@ -4,5 +4,6 @@ public enum ComponentType
 {
 	IMAGE,
 	POSITION,
+	ROTATION,
 	VELOCITY;
 }

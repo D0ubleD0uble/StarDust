@@ -1,11 +1,10 @@
 package com.StarDust.entity.components;
 
 import com.StarDust.entity.Entity;
-import com.StarDust.entity.helper.Selection;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+@Deprecated
 public class RenderComponent
 {
 	Entity entity;

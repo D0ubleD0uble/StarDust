@@ -4,13 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.StarDust.MyGdxGame;
 import com.StarDust.entity.components.Component;
 import com.StarDust.entity.components.ComponentType;
-import com.StarDust.entity.components.PhysicsComponent;
-import com.StarDust.entity.components.RenderComponent;
-import com.StarDust.entity.components.TargetableComponent;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 
 public class Entity extends Group
@@ -26,11 +22,29 @@ public class Entity extends Group
 	public Entity()
 	{
 		components = new HashMap<ComponentType, Component>();
+		MyGdxGame.allEntities.add(this);
 	}
 	
 	public void addComponent(Component component)
 	{
 		this.components.put(component.getComponentType(), component);
+	}
+	
+	public <T extends Component>T getComponent(ComponentType componentType)
+	{
+		return (T)components.get(componentType);
+	}
+	
+	public boolean hasComponents(ComponentType... componentTypes)
+	{
+		for (ComponentType componentType : componentTypes)
+		{
+			if (getComponent(componentType) == null)
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/*public Entity(EntityType entityType, Texture texture)
