@@ -1,8 +1,11 @@
 package com.StarDust.entity;
-import com.badlogic.gdx.graphics.*;
-import com.StarDust.entity.components.*;
-import com.StarDust.*;
-import com.StarDust.stage.*;
+import com.StarDust.entity.components.Image;
+import com.StarDust.entity.components.Position;
+import com.StarDust.entity.components.Rotation;
+import com.StarDust.entity.components.Velocity;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 
 public class EntityFactory
 {
@@ -11,8 +14,9 @@ public class EntityFactory
 		Entity entity = new Entity();
 		entity.addComponent(new Image(createHarvesterTexture()));
 		entity.addComponent(new Position());
+		entity.addComponent(new Rotation());
 		entity.addComponent(new Velocity());
-		StageManager.removeLock(StageType.DEPLOY);
+		//StageManager.removeLock(StageType.DEPLOY);
 		return entity;
 	}
 	
