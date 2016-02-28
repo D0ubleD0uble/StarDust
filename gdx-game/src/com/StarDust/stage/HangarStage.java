@@ -24,8 +24,8 @@ public class HangarStage extends BaseStage
 		table.row();
 		scrollTable = new Table();
 		scrollTable.setFillParent(true);
-		ScrollPane scrollPane = new ScrollPane(scrollTable, MyGdxGame.getUISkin());
-		table.add(scrollPane);
+		//ScrollPane scrollPane = new ScrollPane(scrollTable, MyGdxGame.getUISkin());
+		//table.add(scrollPane);
 		scrollTable.top().left();
 		
 		

@@ -7,12 +7,10 @@ import com.StarDust.entity.Entity;
 import com.StarDust.entity.EntityFactory;
 import com.StarDust.system.Render;
 import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class MyGdxGame implements ApplicationListener
 {
-	private static Skin uiSkin;
+	//private static Skin uiSkin;
 	//StageManager stageManager;
 	Render renderSystem = new Render();
 	public static List<Entity> allEntities;
@@ -20,7 +18,7 @@ public class MyGdxGame implements ApplicationListener
 
 	public void create()
 	{
-		uiSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
+		//uiSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
 		allEntities = new ArrayList<Entity>();
 		//stageManager = new StageManager();
 	}
@@ -55,8 +53,8 @@ public class MyGdxGame implements ApplicationListener
 	{
 	}
 	
-	public static Skin getUISkin()
+	/*public static Skin getUISkin()
 	{
 		return uiSkin;
-	}
+	}*/
 }

@@ -36,8 +36,8 @@ public class SparseAsteroidStage extends BaseMissionStage
 		this.addActor(table);
 		table.setFillParent(true);
 		table.top().left();
-		table.add(new Label(this.getCamera().position.x + "," + this.getCamera().position.y, MyGdxGame.getUISkin()));
+		//table.add(new Label(this.getCamera().position.x + "," + this.getCamera().position.y, MyGdxGame.getUISkin()));
 		table.row();
-		table.add(new Label(this.getViewport().getScreenX() + "," + this.getViewport().getScreenY(), MyGdxGame.getUISkin()));
+		//table.add(new Label(this.getViewport().getScreenX() + "," + this.getViewport().getScreenY(), MyGdxGame.getUISkin()));
 	}
 }
