@@ -10,6 +10,7 @@ import com.StarDust.system.Movement;
 import com.StarDust.system.Render;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class MyGdxGame implements ApplicationListener
@@ -27,7 +28,9 @@ public class MyGdxGame implements ApplicationListener
 		allEntities = new ArrayList<Entity>();
 		renderSystem = new Render();
 		movementSystem = new Movement();
-		inputSystem = new Input(inputSystem);
+		inputSystem = new Input();
+		GestureDetector gd = new GestureDetector(inputSystem);
+		Gdx.input.setInputProcessor(gd);
 		
 		//testing functionality
 		Entity player = EntityFactory.createHarvester();
@@ -42,7 +45,7 @@ public class MyGdxGame implements ApplicationListener
 		//TODO: apply input
 		//TODO: detect collisions
 		//TODO: resolve collisions
-		//TODO: apply movement
+		movementSystem.process(allEntities);
 		renderSystem.render(allEntities);
 	}
 

@@ -1,17 +1,10 @@
 package com.StarDust.system;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.input.GestureDetector.GestureListener;
 import com.badlogic.gdx.math.Vector2;
 
-public class Input extends GestureDetector implements GestureListener{
-
-	public Input(GestureListener listener) {
-		super(listener);
-		Gdx.input.setInputProcessor(this);
-	}
-
+public class Input implements GestureListener
+{
 	@Override
 	public boolean fling(float arg0, float arg1, int arg2) {
 		System.out.println("fling");
