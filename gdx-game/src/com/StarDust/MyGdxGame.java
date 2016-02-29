@@ -5,6 +5,8 @@ import java.util.List;
 
 import com.StarDust.entity.Entity;
 import com.StarDust.entity.EntityFactory;
+import com.StarDust.entity.helper.CollisionPair;
+import com.StarDust.system.CollisionDetection;
 import com.StarDust.system.Input;
 import com.StarDust.system.Movement;
 import com.StarDust.system.Render;
@@ -17,9 +19,11 @@ public class MyGdxGame implements ApplicationListener
 {
 	private static Skin uiSkin;
 	//StageManager stageManager;
-	Input inputSystem;
-	Movement movementSystem;
-	Render renderSystem;
+	private static Input inputSystem;
+	private static Movement movementSystem;
+	private static Render renderSystem;
+	private static CollisionDetection collisionDetection;
+	
 	public static List<Entity> allEntities;
 
 	public void create()
@@ -28,6 +32,7 @@ public class MyGdxGame implements ApplicationListener
 		allEntities = new ArrayList<Entity>();
 		renderSystem = new Render();
 		movementSystem = new Movement();
+		collisionDetection = new CollisionDetection();
 		inputSystem = new Input();
 		GestureDetector gd = new GestureDetector(inputSystem);
 		Gdx.input.setInputProcessor(gd);
@@ -44,6 +49,11 @@ public class MyGdxGame implements ApplicationListener
 		
 		//TODO: apply input
 		//TODO: detect collisions
+		List<CollisionPair> collisions = collisionDetection.process(allEntities);
+		for(CollisionPair collisionPair : collisions)
+		{
+			System.out.println(collisionPair.entity1 + " with " + collisionPair.entity2);
+		}
 		//TODO: resolve collisions
 		movementSystem.process(allEntities);
 		renderSystem.render(allEntities);

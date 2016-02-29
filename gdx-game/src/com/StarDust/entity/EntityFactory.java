@@ -14,7 +14,7 @@ public class EntityFactory
 	{
 		Entity entity = new Entity();
 		entity.addComponent(new Image(createHarvesterTexture()));
-		entity.addComponent(new Position());
+		entity.addComponent(new Position(300, 300));
 		//entity.addComponent(new Rotation());
 		//entity.addComponent(new Velocity());
 		//StageManager.removeLock(StageType.DEPLOY);
