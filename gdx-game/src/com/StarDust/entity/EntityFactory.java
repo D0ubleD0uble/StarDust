@@ -15,8 +15,8 @@ public class EntityFactory
 		Entity entity = new Entity();
 		entity.addComponent(new Image(createHarvesterTexture()));
 		entity.addComponent(new Position());
-		entity.addComponent(new Rotation());
-		entity.addComponent(new Velocity());
+		//entity.addComponent(new Rotation());
+		//entity.addComponent(new Velocity());
 		//StageManager.removeLock(StageType.DEPLOY);
 		return entity;
 	}
@@ -47,7 +47,7 @@ public class EntityFactory
 		entity.addComponent(new Image(createAsteroidTexture(size)));
 		entity.addComponent(new Position());
 		entity.addComponent(new Rotation());
-		entity.addComponent(new Velocity());
+		entity.addComponent(new Velocity(1f, 1f, 0.2f));
 		return entity;
 	}
 	

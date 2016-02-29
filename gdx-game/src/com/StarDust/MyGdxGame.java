@@ -5,17 +5,19 @@ import java.util.List;
 
 import com.StarDust.entity.Entity;
 import com.StarDust.entity.EntityFactory;
+import com.StarDust.system.Input;
+import com.StarDust.system.Movement;
 import com.StarDust.system.Render;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.input.GestureDetector.GestureListener;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-public class MyGdxGame implements ApplicationListener, GestureListener
+public class MyGdxGame implements ApplicationListener
 {
 	private static Skin uiSkin;
 	//StageManager stageManager;
+	Input inputSystem;
+	Movement movementSystem;
 	Render renderSystem;
 	public static List<Entity> allEntities;
 
@@ -24,15 +26,23 @@ public class MyGdxGame implements ApplicationListener, GestureListener
 		uiSkin = new Skin(Gdx.files.internal("data/uiskin.json"));
 		allEntities = new ArrayList<Entity>();
 		renderSystem = new Render();
+		movementSystem = new Movement();
+		inputSystem = new Input(inputSystem);
 		
 		//testing functionality
 		Entity player = EntityFactory.createHarvester();
+		Entity asteroid = EntityFactory.createAsteroid(100, 100, 256);
 	}
 
 	public void render()
 	{
 		//StageManager.getCurrentStage().act(Gdx.graphics.getDeltaTime());
 		//StageManager.getCurrentStage().draw();
+		
+		//TODO: apply input
+		//TODO: detect collisions
+		//TODO: resolve collisions
+		//TODO: apply movement
 		renderSystem.render(allEntities);
 	}
 
@@ -58,53 +68,5 @@ public class MyGdxGame implements ApplicationListener, GestureListener
 	public static Skin getUISkin()
 	{
 		return uiSkin;
-	}
-
-	@Override
-	public boolean fling(float arg0, float arg1, int arg2) {
-		System.out.println("fling");
-		return false;
-	}
-
-	@Override
-	public boolean longPress(float arg0, float arg1) {
-		System.out.println("longpress");
-		return false;
-	}
-
-	@Override
-	public boolean pan(float arg0, float arg1, float arg2, float arg3) {
-		System.out.println("pan");
-		return false;
-	}
-
-	@Override
-	public boolean panStop(float arg0, float arg1, int arg2, int arg3) {
-		System.out.println("panStop");
-		return false;
-	}
-
-	@Override
-	public boolean pinch(Vector2 arg0, Vector2 arg1, Vector2 arg2, Vector2 arg3) {
-		System.out.println("pinch");
-		return false;
-	}
-
-	@Override
-	public boolean tap(float arg0, float arg1, int arg2, int arg3) {
-		System.out.println("tap");
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(float arg0, float arg1, int arg2, int arg3) {
-		System.out.println("touchdown");
-		return false;
-	}
-
-	@Override
-	public boolean zoom(float arg0, float arg1) {
-		System.out.println("zoom");
-		return false;
 	}
 }
