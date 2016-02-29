@@ -7,6 +7,7 @@ import com.StarDust.entity.components.Velocity;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.StarDust.entity.components.*;
 
 public class EntityFactory
 {
@@ -17,6 +18,7 @@ public class EntityFactory
 		entity.addComponent(new Position(300, 300));
 		//entity.addComponent(new Rotation());
 		//entity.addComponent(new Velocity());
+		entity.addComponent(new CircleCollider(30));
 		//StageManager.removeLock(StageType.DEPLOY);
 		return entity;
 	}
@@ -48,10 +50,11 @@ public class EntityFactory
 		entity.addComponent(new Position());
 		entity.addComponent(new Rotation());
 		entity.addComponent(new Velocity(1f, 1f, 0.2f));
+		entity.addComponent(new CircleCollider(size/2-1));
 		return entity;
 	}
 	
-	private static Texture createAsteroidTexture(int size)
+	public static Texture createAsteroidTexture(int size)
 	{
 		Pixmap pixmap = new Pixmap(size, size, Pixmap.Format.RGBA8888);
 		pixmap.setColor(Color.WHITE);

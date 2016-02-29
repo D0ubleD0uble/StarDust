@@ -51,8 +51,10 @@ public class CollisionDetection
 	
 	public boolean isCircleCollision(Position p1, CircleCollider c1, Position p2, CircleCollider c2)
 	{
+		float xDifference = (p2.x+c2.radius) - (p1.x+c1.radius);
+		float yDifference = (p1.y+c1.radius) - (p2.y+c2.radius);
 		float totalRadius = c1.radius + c2.radius;
-		if ((p2.x - p1.x) + (p1.y - p2.y) <= (totalRadius * totalRadius))
+		if ((xDifference*xDifference) + (yDifference*yDifference) <= (totalRadius*totalRadius))
 		{
 			return true;
 		}

@@ -25,6 +25,11 @@ public class Entity
 		this.components.put(component.getComponentType(), component);
 	}
 	
+	public void removeComponent(ComponentType componentType)
+	{
+		components.remove(componentType);
+	}
+	
 	public <T extends Component>T getComponent(ComponentType componentType)
 	{
 		return (T)components.get(componentType);

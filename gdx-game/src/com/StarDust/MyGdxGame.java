@@ -14,6 +14,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.StarDust.entity.components.*;
 
 public class MyGdxGame implements ApplicationListener
 {
@@ -25,6 +26,7 @@ public class MyGdxGame implements ApplicationListener
 	private static CollisionDetection collisionDetection;
 	
 	public static List<Entity> allEntities;
+	Entity debugObj;
 
 	public void create()
 	{
@@ -39,7 +41,8 @@ public class MyGdxGame implements ApplicationListener
 		
 		//testing functionality
 		Entity player = EntityFactory.createHarvester();
-		Entity asteroid = EntityFactory.createAsteroid(100, 100, 256);
+		Entity asteroid = EntityFactory.createAsteroid(100, 100, 128);
+		debugObj = EntityFactory.createAsteroid(0, 500, 8);
 	}
 
 	public void render()
@@ -48,11 +51,14 @@ public class MyGdxGame implements ApplicationListener
 		//StageManager.getCurrentStage().draw();
 		
 		//TODO: apply input
-		//TODO: detect collisions
 		List<CollisionPair> collisions = collisionDetection.process(allEntities);
-		for(CollisionPair collisionPair : collisions)
+		if (collisions.size() > 0)
 		{
-			System.out.println(collisionPair.entity1 + " with " + collisionPair.entity2);
+			debugObj.addComponent(new Image(EntityFactory.createAsteroidTexture(8)));
+		}
+		else
+		{
+			debugObj.removeComponent(ComponentType.IMAGE);
 		}
 		//TODO: resolve collisions
 		movementSystem.process(allEntities);
