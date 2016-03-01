@@ -41,8 +41,8 @@ public class MyGdxGame implements ApplicationListener
 		
 		//testing functionality
 		Entity player = EntityFactory.createHarvester();
-		Entity asteroid = EntityFactory.createAsteroid(100, 100, 128);
-		debugObj = EntityFactory.createAsteroid(0, 500, 8);
+		player.addComponent(new CameraFollow());
+		EntityFactory.createAsteroid(100, 100, 128);
 	}
 
 	public void render()
@@ -52,14 +52,6 @@ public class MyGdxGame implements ApplicationListener
 		
 		//TODO: apply input
 		List<CollisionPair> collisions = collisionDetection.process(allEntities);
-		if (collisions.size() > 0)
-		{
-			debugObj.addComponent(new Image(EntityFactory.createAsteroidTexture(8)));
-		}
-		else
-		{
-			debugObj.removeComponent(ComponentType.IMAGE);
-		}
 		//TODO: resolve collisions
 		movementSystem.process(allEntities);
 		renderSystem.render(allEntities);

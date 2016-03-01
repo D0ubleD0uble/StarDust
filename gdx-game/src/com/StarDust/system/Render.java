@@ -10,21 +10,26 @@ import com.StarDust.entity.components.Rotation;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.*;
 
 public class Render
 {
+	FollowCamera camera;
 	SpriteBatch spriteBatch;
 	
 	public Render()
 	{
 		spriteBatch = new SpriteBatch();
+		camera = new FollowCamera();
 	}
 	
 	public void render(List<Entity> entities)
 	{
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		camera.update(entities);
 	    
+		spriteBatch.setProjectionMatrix(camera.combined);
 	    spriteBatch.begin();
 		for (Entity e : entities)
 		{

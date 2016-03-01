@@ -6,5 +6,6 @@ public enum ComponentType
 	POSITION,
 	ROTATION,
 	VELOCITY,
-	COLLIDER;
+	COLLIDER,
+	CAMERAFOLLOW;
 }
