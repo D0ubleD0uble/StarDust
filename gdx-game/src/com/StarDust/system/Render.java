@@ -1,16 +1,16 @@
 package com.StarDust.system;
 
-import java.util.List;
-
-import com.StarDust.entity.Entity;
-import com.StarDust.entity.components.ComponentType;
-import com.StarDust.entity.components.Image;
-import com.StarDust.entity.components.Position;
-import com.StarDust.entity.components.Rotation;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.StarDust.entity.*;
+import com.StarDust.entity.components.*;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import java.util.*;
+
+import com.StarDust.entity.components.Image;
+import java.util.List;
+import com.badlogic.gdx.math.*;
 
 public class Render
 {
@@ -31,17 +31,23 @@ public class Render
 	    
 		spriteBatch.setProjectionMatrix(camera.combined);
 	    spriteBatch.begin();
+		List<Entity> interfaceEntities = new ArrayList<Entity>();
 		for (Entity e : entities)
 		{
-			if (e.hasComponents(getRequiredComponents()))
+			if (e.hasComponents(getRequiredComponentsForWorld()))
 			{
-				render(e);
+				renderWorld(e);
+			}
+			if (e.hasComponents(getRequiredComponentsForUserInterface()))
+			{
+				interfaceEntities.add(e);
 			}
 		}
+		renderInterface(interfaceEntities);
 		spriteBatch.end();
 	}
 	
-	private void render(Entity... entities)
+	private void renderWorld(Entity... entities)
 	{
 	    for (Entity e : entities)
 	    {
@@ -80,8 +86,27 @@ public class Render
 	    }
 	}
 	
-	public static ComponentType[] getRequiredComponents()
+	private void renderInterface(List<Entity> interfaceEntities)
+	{
+		for (Entity e : interfaceEntities)
+		{
+			UIComponent uiComponent = e.getComponent(ComponentType.UICOMPONENT);
+			Position position = e.getComponent(ComponentType.POSITION);
+			Widget widget = uiComponent.getWidget();
+			widget.act(1/60);
+			Vector3 screenPosition = camera.unproject(new Vector3(position.x, position.y, 0));
+			widget.setPosition(screenPosition.x, screenPosition.y);
+			widget.draw(spriteBatch, 1);
+		}
+	}
+	
+	public static ComponentType[] getRequiredComponentsForWorld()
 	{
 		return new ComponentType[] { ComponentType.IMAGE, ComponentType.POSITION};
+	}
+	
+	public static ComponentType[] getRequiredComponentsForUserInterface()
+	{
+		return new ComponentType[] { ComponentType.UICOMPONENT, ComponentType.POSITION};
 	}
 }

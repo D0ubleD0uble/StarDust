@@ -1,13 +1,11 @@
 package com.StarDust.entity;
-import com.StarDust.entity.components.ComponentType;
-import com.StarDust.entity.components.Image;
-import com.StarDust.entity.components.Position;
-import com.StarDust.entity.components.Rotation;
-import com.StarDust.entity.components.Velocity;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.StarDust.entity.components.*;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+
+import com.StarDust.entity.components.Image;
+import com.StarDust.*;
 
 public class EntityFactory
 {
@@ -63,5 +61,19 @@ public class EntityFactory
 		Texture texture = new Texture(pixmap);
 		pixmap.dispose();
 		return texture;
+	}
+	
+	public static void displayFPS()
+	{
+		Entity fps = new Entity();
+		Label fpsLabel = new Label("", MyGdxGame.getUISkin()){
+			public void act(float delta)
+			{
+				setText("FPS "+Gdx.graphics.getFramesPerSecond());
+			}
+		};
+		UIComponent fpscomponent = new UIComponent(fpsLabel);
+		fps.addComponent(fpscomponent);
+		fps.addComponent(new Position(0f, 16f));
 	}
 }

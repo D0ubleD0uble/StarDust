@@ -1,18 +1,13 @@
 package com.StarDust.system;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.StarDust.entity.Entity;
-import com.StarDust.entity.components.CircleCollider;
-import com.StarDust.entity.components.Collider;
-import com.StarDust.entity.components.ComponentType;
-import com.StarDust.entity.components.Position;
-import com.StarDust.entity.helper.CollisionPair;
+import com.StarDust.entity.*;
+import com.StarDust.entity.components.*;
+import com.StarDust.entity.helper.*;
+import java.util.*;
 
 public class CollisionDetection
 {
-	public List<CollisionPair> process(List<Entity> entities)
+	public List<CollisionPair> process(List<Entity> entities, double deltaTime)
 	{
 		List<CollisionPair> collidingEntities = new ArrayList<CollisionPair>();
 		for (int i = 0; i < entities.size(); i++)
@@ -24,7 +19,7 @@ public class CollisionDetection
 				if (e1.hasComponents(getRequiredComponents()) &&
 						e2.hasComponents(getRequiredComponents()))
 				{
-					if (isColliding(e1, e2))
+					if (isColliding(e1, e2, deltaTime))
 					{
 						collidingEntities.add(new CollisionPair(e1, e2));
 					}
@@ -34,22 +29,28 @@ public class CollisionDetection
 		return collidingEntities;
 	}
 	
-	public boolean isColliding(Entity e1, Entity e2)
+	public boolean isColliding(Entity e1, Entity e2, double deltaTime)
 	{
 		Position position1 = e1.getComponent(ComponentType.POSITION);
 		Position position2 = e2.getComponent(ComponentType.POSITION);
 		Collider collider1 = e1.getComponent(ComponentType.COLLIDER);
 		Collider collider2 = e2.getComponent(ComponentType.COLLIDER);
 		
-		if (collider1.getShape() == Collider.Shape.CIRCLE && collider2.getShape() == Collider.Shape.CIRCLE)
+		Velocity velocity1 = e1.getComponent(ComponentType.VELOCITY);
+		Velocity velocity2 = e2.getComponent(ComponentType.VELOCITY);
+		
+		if (velocity1 != null || velocity2 != null)
 		{
-			return isCircleCollision(position1, (CircleCollider)collider1, position2, (CircleCollider)collider2);
+		    if (collider1.getShape() == Collider.Shape.CIRCLE && collider2.getShape() == Collider.Shape.CIRCLE)
+		    {
+			    return isCircleCollision(position1, velocity1, (CircleCollider)collider1, position2, velocity2, (CircleCollider)collider2, deltaTime);
+		    }
 		}
 		
 		return false;
 	}
 	
-	public boolean isCircleCollision(Position p1, CircleCollider c1, Position p2, CircleCollider c2)
+	public boolean isCircleCollision(Position p1, Velocity v1, CircleCollider c1, Position p2, Velocity v2, CircleCollider c2, double deltaTime)
 	{
 		float xDifference = (p2.x+c2.radius) - (p1.x+c1.radius);
 		float yDifference = (p1.y+c1.radius) - (p2.y+c2.radius);
