@@ -117,8 +117,8 @@ public class CollisionDetection
 		
 		for (int i = 0; i < numberOfSteps; i++)
 		{
-			if (isCirclesIntersected(new Vector2(startPosition1.x*(maxDistanceStep*i), startPosition1.y*(maxDistanceStep*i)), 0, 
-									 new Vector2(startPosition2.x*(maxDistanceStep*i), startPosition2.y*(maxDistanceStep*i)), 0))
+			if (isCirclesIntersected(new Vector2(startPosition1.x*(entity1VelocityPerStep.x*i), startPosition1.y*(entity1VelocityPerStep.y*i)), 0, 
+									 new Vector2(startPosition2.x*(entity2VelocityPerStep.x*i), startPosition2.y*(entity2VelocityPerStep.y*i)), 0))
 			{
 				double timeOfCollision = numberOfSteps*timeStep;
 				double timeAfterCollision = timeChange-timeOfCollision;
