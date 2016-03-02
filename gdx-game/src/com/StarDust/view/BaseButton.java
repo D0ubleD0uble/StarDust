@@ -4,6 +4,12 @@ import com.StarDust.*;
 
 public abstract class BaseButton extends TextButton
 {
+	public BaseButton()
+	{
+		//added to make compilable
+		super("BLANK", MyGdxGame.getUISkin());
+	}
+	
 	public BaseButton(String buttonText)
 	{
 		this(buttonText, MyGdxGame.getUISkin());

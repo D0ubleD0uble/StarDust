@@ -26,24 +26,24 @@ public abstract class BaseMissionStage extends BaseStage
 	{
 		if (moveToTouch != null)
 		{
-		    player.moveTo(moveToTouch.stageCoordinates);
+		    /*player.physicsComponent.moveTo(moveToTouch.stageCoordinates);
 			if (rotateToTouch != null)
 			{
-				player.rotateTo(moveToTouch.stageCoordinates, rotateToTouch.stageCoordinates);
+				player.physicsComponent.rotateTo(moveToTouch.stageCoordinates, rotateToTouch.stageCoordinates);
 				rotateToTouch = null;
-			}
+			}*/
 		}
 		super.act(delta);
-		this.getCamera().position.set(player.getX()+player.getOriginX(), player.getY()+player.getOriginY(), 0);
+		//this.getCamera().position.set(player.getX()+player.getOriginX(), player.getY()+player.getOriginY(), 0);
 	}
 	
-	public void setPlayer(Entity entity)
+	/*public void setPlayer(Entity entity)
 	{
 		player = entity;
 		player.clearListeners();
 		player.addListener(new InputListener(){
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				player.stopMoving();
+				//player.physicsComponent.stopMoving();
 				return true;
 			}
 		});
@@ -53,7 +53,7 @@ public abstract class BaseMissionStage extends BaseStage
 		t.setX(0);
 		t.setOwner(player);
 		player.addActor(t);
-	}
+	}*/
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button)

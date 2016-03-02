@@ -1,29 +1,23 @@
 package com.StarDust.view;
-import com.StarDust.MyGdxGame;
-import com.StarDust.entity.Entity;
-import com.StarDust.entity.EntityType;
-import com.StarDust.stage.HeadquartersStage;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class PurchaseButton extends BaseButton
 {
-	EntityType lockTarget;
+	/*EntityType lockTarget;
 	public PurchaseButton(String buttonText, float cost, EntityType entityType)
 	{
 		super(cost + " : " + buttonText, MyGdxGame.getUISkin());
 		this.lockTarget = entityType;
 		this.addListener(new PurchaseListener(cost, entityType));
-	}
+	}*/
 	
 	@Override
 	protected Object getLockTarget()
 	{
-		return lockTarget;
+		return null;//lockTarget;
 	}
 }
 
-class PurchaseListener extends ChangeListener
+/*class PurchaseListener extends ChangeListener
 {
 	float cost;
 	EntityType entityType;
@@ -51,4 +45,4 @@ class PurchaseListener extends ChangeListener
 			}
 		}
 	}
-}
+}*/

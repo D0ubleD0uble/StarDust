@@ -51,7 +51,7 @@ class MissionListener extends ChangeListener
 		for(Button cb : shipGroup.getAllChecked())
 		{
 			Entity e = ((CheckButton)cb).getChosenEntity();
-			((BaseMissionStage)StageManager.getStage(missionStage)).setPlayer(e);
+			//((BaseMissionStage)StageManager.getStage(missionStage)).setPlayer(e);
 		}
 	}
 	

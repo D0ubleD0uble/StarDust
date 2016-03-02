@@ -1,10 +1,6 @@
 package com.StarDust.entity.helper;
 
 import com.StarDust.entity.Entity;
-import com.StarDust.entity.EntityType;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class Selection extends Entity
 {
@@ -18,14 +14,14 @@ public class Selection extends Entity
 	
 	public Selection(float width, float height)
 	{
-		super(EntityType.SELECTION, createSelectionTexture());
-		this.setScale(0.25f);
+		//super(EntityType.SELECTION, createSelectionTexture());
+		/*this.setScale(0.25f);
 		this.setWidth(width);
-		this.setHeight(height);
+		this.setHeight(height);*/
 	}
 
-	@Override
-	public void draw(Batch batch, float alpha)
+	//@Override
+	/*public void draw(Batch batch, float alpha)
 	{
 		//Draw Bottom-Left
 		draw(batch, POSITION.BOTTOM_LEFT);
@@ -35,9 +31,9 @@ public class Selection extends Entity
 		draw(batch, POSITION.TOP_LEFT);
 		//Draw Top-Right
 		draw(batch, POSITION.TOP_RIGHT);
-	}
+	}*/
 	
-	public void draw(Batch batch, POSITION pos)
+	/*public void draw(Batch batch, POSITION pos)
 	{
 		float drawnRotation = 0;
 		float xMod = 0;
@@ -79,10 +75,10 @@ public class Selection extends Entity
 				getTexture().getWidth(), getTexture().getHeight(),
 				false,false);
 		batch.setColor(Color.WHITE);
-	}
+	}*/
 	
-	private static Texture createSelectionTexture()
+	/*private static Texture createSelectionTexture()
 	{
 		return new Texture("selection.png");
-	}
+	}*/
 }

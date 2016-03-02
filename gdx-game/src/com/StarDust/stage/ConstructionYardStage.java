@@ -25,8 +25,8 @@ public class ConstructionYardStage extends BaseStage
 		table.add(cashLabel);
 		
 		table.row();
-		PurchaseButton buyHarvester = new PurchaseButton(EntityType.HARVESTER.getName(), 250f, EntityType.HARVESTER);
-		table.add(buyHarvester);
+		//PurchaseButton buyHarvester = new PurchaseButton(EntityType.HARVESTER.getName(), 250f, EntityType.HARVESTER);
+		//table.add(buyHarvester);
 		
 		table.row();
 		NavigationButton backButton = new NavigationButton("Back", StageType.HEADQUARTERS);
@@ -39,7 +39,7 @@ public class ConstructionYardStage extends BaseStage
 		if(this.isFirstVisit())
 		{
 		    HeadquartersStage.addCash(250);
-		    StageManager.removeLock(EntityType.HARVESTER);
+		    //StageManager.removeLock(EntityType.HARVESTER);
 		}
 		super.updateOnNavigation();
 	}

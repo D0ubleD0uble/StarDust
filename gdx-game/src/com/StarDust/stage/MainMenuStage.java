@@ -24,8 +24,8 @@ public class MainMenuStage extends BaseStage
 		table.add(newGameButton);
 		table.row();
 		
-		TextButton loadGameButton = new TextButton("Load Game", MyGdxGame.getUISkin());
-		table.add(loadGameButton);
+		//TextButton loadGameButton = new TextButton("Load Game", MyGdxGame.getUISkin());
+		//table.add(loadGameButton);
 		table.row();
 	}
 }
