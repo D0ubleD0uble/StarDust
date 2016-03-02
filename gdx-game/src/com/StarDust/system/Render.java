@@ -23,6 +23,11 @@ public class Render
 		camera = new FollowCamera();
 	}
 	
+	public void resize(float width, float height)
+	{
+		camera.resize(width, height);
+	}
+	
 	public void render(List<Entity> entities)
 	{
 		Gdx.gl.glClearColor(0, 0, 0, 0);
