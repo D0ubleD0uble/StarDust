@@ -46,4 +46,10 @@ public class FollowCamera extends OrthographicCamera
 	{
 		return new ComponentType[] { ComponentType.CAMERAFOLLOW, ComponentType.IMAGE, ComponentType.POSITION };
 	}
+	
+	public void resize(float width, float height)
+	{
+		this.viewportWidth = width;
+		this.viewportHeight = height;
+	}
 }

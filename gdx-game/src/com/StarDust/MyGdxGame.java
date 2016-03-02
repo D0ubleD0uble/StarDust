@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.StarDust.entity.Entity;
 import com.StarDust.entity.EntityFactory;
+import com.StarDust.entity.components.CameraFollow;
 import com.StarDust.entity.helper.CollisionPair;
 import com.StarDust.system.CollisionDetection;
 import com.StarDust.system.Input;
@@ -14,8 +15,6 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.StarDust.entity.components.*;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
 
 public class MyGdxGame implements ApplicationListener
 {
@@ -68,9 +67,7 @@ public class MyGdxGame implements ApplicationListener
 
 	public void resize(int width, int height)
 	{
-		/*StageManager.getCurrentStage().getViewport().update(width, height);
-		Camera camera = StageManager.getCurrentStage().getCamera();
-		camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2,0);*/
+		renderSystem.resize(width, height);
 	}
 
 	public void pause()
