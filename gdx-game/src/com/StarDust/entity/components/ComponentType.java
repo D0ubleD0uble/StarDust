@@ -7,6 +7,7 @@ public enum ComponentType
 	ROTATION,
 	VELOCITY,
 	COLLIDER,
+	COLLIDED,
 	CAMERAFOLLOW,
 	UICOMPONENT;
 }

@@ -3,6 +3,8 @@ package com.StarDust.system;
 import com.StarDust.entity.*;
 import com.StarDust.entity.components.*;
 import com.StarDust.entity.helper.*;
+import com.badlogic.gdx.math.Vector2;
+
 import java.util.*;
 
 public class CollisionDetection
@@ -21,7 +23,10 @@ public class CollisionDetection
 				{
 					if (isColliding(e1, e2, deltaTime))
 					{
-						collidingEntities.add(new CollisionPair(e1, e2));
+						Collided collided1 = new Collided(0, deltaTime);
+						Collided collided2 = new Collided(0, deltaTime);
+						
+						//collided1.setCollisionPosition(0, 0);
 					}
 				}
 			}
@@ -38,6 +43,7 @@ public class CollisionDetection
 		
 		Velocity velocity1 = e1.getComponent(ComponentType.VELOCITY);
 		Velocity velocity2 = e2.getComponent(ComponentType.VELOCITY);
+		performCollisionCheck();
 		
 		if (velocity1 != null || velocity2 != null)
 		{
@@ -60,6 +66,78 @@ public class CollisionDetection
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Determines whether two circles with given radius are intersected at given positions
+	 * @param p1 Position of first Entity
+	 * @param r1 Radius of first Entity
+	 * @param p2 Position of second Entity
+	 * @param r2 Radius of second Entity
+	 * @return
+	 */
+	public boolean isCirclesIntersected(Vector2 p1, float r1, Vector2 p2, float r2)
+	{
+		//positions are given as bottom-left of the object. Adds radius to go from center of circle
+		float xDifference = (p2.x+r2) - (p1.x+r1);
+		float yDifference = (p1.y+r1) - (p2.y+r2);
+		float totalRadius = r1+r2;
+		if ((xDifference*xDifference) + (yDifference * yDifference) <= totalRadius*totalRadius)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	public void performCollisionCheck()
+	{
+		float timeChange = 10;//seconds
+		Vector2 startPosition1 = new Vector2(0, 0);
+		Vector2 startVelocity1 = new Vector2(1, 1);
+		
+		Vector2 startPosition2 = new Vector2(10, 10);
+		Vector2 startVelocity2 = new Vector2(-1, -1);
+		
+		float maxDistanceStep = 1f;
+		
+		Vector2 totalDistanceVector1 = startVelocity1.scl(timeChange);
+		Vector2 totalDistanceVector2 = startVelocity2.scl(timeChange);
+		float totalDistance1 = totalDistanceVector1.len();
+		System.out.println(totalDistance1 +", expected: 10");
+		float totalDistance2 = totalDistanceVector2.len();
+		
+		float numberOfSteps1 = totalDistance1 / maxDistanceStep;
+		System.out.println(numberOfSteps1 +", expected: 10");
+		float numberOfSteps2 = totalDistance2 / maxDistanceStep;
+		
+		float numberOfSteps = Math.max(numberOfSteps1, numberOfSteps2);
+		Vector2 entity1VelocityPerStep = new Vector2(totalDistanceVector1.x/numberOfSteps, totalDistanceVector1.y/numberOfSteps);
+		Vector2 entity2VelocityPerStep = new Vector2(totalDistanceVector2.x/numberOfSteps, totalDistanceVector2.y/numberOfSteps);
+		double timeStep = timeChange/numberOfSteps;
+		
+		for (int i = 0; i < numberOfSteps; i++)
+		{
+			if (isCirclesIntersected(new Vector2(startPosition1.x*(maxDistanceStep*i), startPosition1.y*(maxDistanceStep*i)), 0, 
+									 new Vector2(startPosition2.x*(maxDistanceStep*i), startPosition2.y*(maxDistanceStep*i)), 0))
+			{
+				double timeOfCollision = numberOfSteps*timeStep;
+				double timeAfterCollision = timeChange-timeOfCollision;
+				System.out.println(timeOfCollision + ", expected: 5");
+			}
+		}
+		
+		
+		//expected point of collision = 5,5
+		
+		/*length = sqrt(v.x * v.x + v.y * v.y);
+
+		// normalize vector
+		v.x /= length;
+		v.y /= length;
+
+		// increase vector size
+		v.x *= 10
+		v.y *= 10*/
 	}
 	
 	
