@@ -2,7 +2,7 @@ package com.StarDust.entity.components;
 
 public class Collider extends Component
 {
-	public enum Shape { CIRCLE };
+	public enum Shape { LINE, REGION, CIRCLE };
 	
 	Shape collisionShape;
 	

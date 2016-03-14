@@ -12,7 +12,7 @@ import com.StarDust.entity.components.Image;
 import java.util.List;
 import com.badlogic.gdx.math.*;
 
-public class Render
+public class Render extends System
 {
 	FollowCamera camera;
 	SpriteBatch spriteBatch;
@@ -28,7 +28,7 @@ public class Render
 		camera.resize(width, height);
 	}
 	
-	public void render(List<Entity> entities)
+	public void process(List<Entity> entities, double deltaTime)
 	{
 		Gdx.gl.glClearColor(0, 0, 0, 0);
 	    Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -113,5 +113,11 @@ public class Render
 	public static ComponentType[] getRequiredComponentsForUserInterface()
 	{
 		return new ComponentType[] { ComponentType.UICOMPONENT, ComponentType.POSITION};
+	}
+	
+	public static ComponentType[] getRequiredComponents()
+	{
+		// TODO: Implement this method
+		return null;
 	}
 }

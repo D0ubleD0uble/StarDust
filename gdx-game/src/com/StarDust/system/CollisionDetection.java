@@ -6,12 +6,12 @@ import com.StarDust.entity.helper.*;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.*;
+import com.StarDust.entity.components.collisions.*;
 
-public class CollisionDetection
+public class CollisionDetection extends System
 {
-	public List<CollisionPair> process(List<Entity> entities, double deltaTime)
+	public void process(List<Entity> entities, double deltaTime)
 	{
-		List<CollisionPair> collidingEntities = new ArrayList<CollisionPair>();
 		for (int i = 0; i < entities.size(); i++)
 		{
 			for (int j = i+1; j < entities.size(); j++)
@@ -21,20 +21,13 @@ public class CollisionDetection
 				if (e1.hasComponents(getRequiredComponents()) &&
 						e2.hasComponents(getRequiredComponents()))
 				{
-					if (isColliding(e1, e2, deltaTime))
-					{
-						Collided collided1 = new Collided(0, deltaTime);
-						Collided collided2 = new Collided(0, deltaTime);
-						
-						//collided1.setCollisionPosition(0, 0);
-					}
+					isColliding(e1, e2, deltaTime);
 				}
 			}
 		}
-		return collidingEntities;
 	}
 	
-	public boolean isColliding(Entity e1, Entity e2, double deltaTime)
+	public void isColliding(Entity e1, Entity e2, double deltaTime)
 	{
 		Position position1 = e1.getComponent(ComponentType.POSITION);
 		Position position2 = e2.getComponent(ComponentType.POSITION);
@@ -42,30 +35,117 @@ public class CollisionDetection
 		Collider collider2 = e2.getComponent(ComponentType.COLLIDER);
 		
 		Velocity velocity1 = e1.getComponent(ComponentType.VELOCITY);
+		if (velocity1 == null)
+			velocity1 = new Velocity(0, 0, 0);
 		Velocity velocity2 = e2.getComponent(ComponentType.VELOCITY);
-		performCollisionCheck();
+		if (velocity2 == null)
+			velocity2 = new Velocity(0, 0, 0);
 		
-		if (velocity1 != null || velocity2 != null)
+		if ((collider1.getShape() == Collider.Shape.REGION && collider2.getShape() == Collider.Shape.CIRCLE) ||
+		    (collider1.getShape() == Collider.Shape.CIRCLE && collider2.getShape() == Collider.Shape.REGION))
 		{
-		    if (collider1.getShape() == Collider.Shape.CIRCLE && collider2.getShape() == Collider.Shape.CIRCLE)
-		    {
-			    return isCircleCollision(position1, velocity1, (CircleCollider)collider1, position2, velocity2, (CircleCollider)collider2, deltaTime);
-		    }
+			RegionCollider regionCollider = null;
+			CollisionReaction reaction1 = null;
+			CollisionReaction reaction2 = null;
+			CircleCollider circleCollider = null;
+			Position circlePosition = null;
+			
+			if (collider1.getShape() == Collider.Shape.REGION)
+			{
+				regionCollider = (RegionCollider)collider1;
+				reaction1 = e1.getComponent(ComponentType.COLLISION_REACTION);
+				reaction2 = e2.getComponent(ComponentType.COLLISION_REACTION);
+				circleCollider = (CircleCollider)collider2;
+				circlePosition = position2;
+			}
+			else
+			{
+				regionCollider = (RegionCollider)collider2;
+				reaction1 = e1.getComponent(ComponentType.COLLISION_REACTION);
+				reaction2 = e2.getComponent(ComponentType.COLLISION_REACTION);
+				circleCollider = (CircleCollider)collider1;
+				circlePosition = position1;
+			}
+			
+			if (isCircleWithinRegion(regionCollider, new Vector2(circlePosition.x, circlePosition.y), circleCollider.radius))
+			{
+				Event event1 = new Event(0.00, deltaTime);
+				event1.setCollisionReaction(reaction2);
+				Event event2 = new Event(0.00, deltaTime);
+				event2.setCollisionReaction(reaction1);
+				event1.setOtherEvent(event2);
+				event2.setOtherEvent(event1);
+				
+				Collided c1;
+				if(e1.hasComponents(ComponentType.COLLIDED))
+				{
+					c1 = e1.getComponent(ComponentType.COLLIDED);
+				}
+				else
+				{
+					c1 = new Collided();
+					e1.addComponent(c1);
+				}
+				Collided c2;
+				if(e2.hasComponents(ComponentType.COLLIDED))
+				{
+					c2 = e2.getComponent(ComponentType.COLLIDED);
+				}
+				else
+				{
+					c2 = new Collided();
+					e2.addComponent(c2);
+				}
+				
+				c1.addEvent(event1);
+				c2.addEvent(event2);
+			}
 		}
-		
-		return false;
-	}
-	
-	public boolean isCircleCollision(Position p1, Velocity v1, CircleCollider c1, Position p2, Velocity v2, CircleCollider c2, double deltaTime)
-	{
-		float xDifference = (p2.x+c2.radius) - (p1.x+c1.radius);
-		float yDifference = (p1.y+c1.radius) - (p2.y+c2.radius);
-		float totalRadius = c1.radius + c2.radius;
-		if ((xDifference*xDifference) + (yDifference*yDifference) <= (totalRadius*totalRadius))
+		else if (collider1.getShape() == Collider.Shape.CIRCLE && collider2.getShape() == Collider.Shape.CIRCLE)
 		{
-			return true;
+				performCollisionCheck(e1,
+				                      new Vector2(position1.x, position1.y),
+									  new Vector2(velocity1.dx, velocity1.dy),
+									  ((CircleCollider)collider1).radius,
+									  e2,
+									  new Vector2(position2.x, position2.y),
+									  new Vector2(velocity2.dx, velocity2.dy),
+									  ((CircleCollider)collider2).radius,
+									  deltaTime);
 		}
-		return false;
+		else if ((collider1.getShape() == Collider.Shape.LINE && collider2.getShape() == Collider.Shape.CIRCLE) ||
+		         (collider2.getShape() == Collider.Shape.LINE && collider1.getShape() == Collider.Shape.CIRCLE))
+		{
+			LineCollider lineCollider = null;
+			CircleCollider circleCollider = null;
+			Position circlePosition = null;
+			
+			if (collider1.getShape() == Collider.Shape.LINE)
+			{
+				lineCollider = (LineCollider)collider1;
+				circleCollider = (CircleCollider)collider2;
+				circlePosition = position2;
+			}
+			else
+			{
+				lineCollider = (LineCollider)collider2;
+				circleCollider = (CircleCollider)collider1;
+				circlePosition = position1;
+			}
+			Vector2 position = new Vector2(circlePosition.x+circleCollider.radius, circlePosition.y+circleCollider.radius);
+			
+			if (isLineIntersectedWithCircle(lineCollider.lineStart, lineCollider.lineEnd, position, circleCollider.radius))
+			{
+				/*Collided c1 = new Collided(0.00, deltaTime);
+				Collided c2 = new Collided(0.00, deltaTime);
+				
+				c1.setOtherCollided(c2);
+				c2.setOtherCollided(c1);
+				
+				e1.addComponent(c1);
+				e2.addComponent(c2);*/
+			}
+		}
 	}
 	
 	/**
@@ -89,57 +169,99 @@ public class CollisionDetection
 		return false;
 	}
 	
-	public void performCollisionCheck()
+	public boolean isCircleWithinRegion(RegionCollider region, Vector2 circlePosition, float circleRadius)
 	{
-		float timeChange = 10;//seconds
-		Vector2 startPosition1 = new Vector2(0, 0);
-		Vector2 startVelocity1 = new Vector2(1, 1);
+		if (region.minX != null &&
+		    circlePosition.x > region.minX)
+		{
+			return false;
+		}
 		
-		Vector2 startPosition2 = new Vector2(10, 10);
-		Vector2 startVelocity2 = new Vector2(-1, -1);
+		if (region.minY != null && 
+		    circlePosition.y > region.minY)
+		{
+			return false;
+		}
 		
-		float maxDistanceStep = 1f;
+		if (region.maxX != null &&
+		    circlePosition.x+(circleRadius*2) < region.maxX)
+		{
+			return false;
+		}
+
+		if (region.maxY != null && 
+		    circlePosition.y+(circleRadius*2) < region.maxY)
+		{
+			return false;
+		}
 		
-		Vector2 totalDistanceVector1 = startVelocity1.scl(timeChange);
-		Vector2 totalDistanceVector2 = startVelocity2.scl(timeChange);
+		return true;
+	}
+	
+	public boolean isLineIntersectedWithCircle(Vector2 lineStart, Vector2 lineEnd, Vector2 circlePosition, float circleRadius)
+	{
+		Vector2 lineVector = lineEnd.sub(lineStart);
+		Vector2 lineStartToCircle = lineEnd.sub(circlePosition);
+		
+		float a = lineVector.dot(lineVector);
+		float b = 2*lineStartToCircle.dot(lineVector);
+		float c = lineStartToCircle.dot(lineStartToCircle) - circleRadius*circleRadius;
+		
+		float discriminant = b*b-4*a*c;
+		if (discriminant < 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	public void performCollisionCheck(Entity e1, Vector2 p1, Vector2 v1, float r1, Entity e2, Vector2 p2, Vector2 v2, float r2, double delta)
+	{
+		/*float maxDistanceStep = 1f;
+		
+		Vector2 totalDistanceVector1 = v1.scl((float)delta);
+		Vector2 totalDistanceVector2 = v2.scl((float)delta);
 		float totalDistance1 = totalDistanceVector1.len();
-		System.out.println(totalDistance1 +", expected: 10");
 		float totalDistance2 = totalDistanceVector2.len();
 		
 		float numberOfSteps1 = totalDistance1 / maxDistanceStep;
-		System.out.println(numberOfSteps1 +", expected: 10");
 		float numberOfSteps2 = totalDistance2 / maxDistanceStep;
-		
 		float numberOfSteps = Math.max(numberOfSteps1, numberOfSteps2);
+		
 		Vector2 entity1VelocityPerStep = new Vector2(totalDistanceVector1.x/numberOfSteps, totalDistanceVector1.y/numberOfSteps);
 		Vector2 entity2VelocityPerStep = new Vector2(totalDistanceVector2.x/numberOfSteps, totalDistanceVector2.y/numberOfSteps);
-		double timeStep = timeChange/numberOfSteps;
+		double timeStep = delta/numberOfSteps;
 		
 		for (int i = 0; i < numberOfSteps; i++)
 		{
-			if (isCirclesIntersected(new Vector2(startPosition1.x*(entity1VelocityPerStep.x*i), startPosition1.y*(entity1VelocityPerStep.y*i)), 0, 
-									 new Vector2(startPosition2.x*(entity2VelocityPerStep.x*i), startPosition2.y*(entity2VelocityPerStep.y*i)), 0))
+			Vector2 entity1Position = new Vector2(p1.x+(entity1VelocityPerStep.x*i), p1.y+(entity1VelocityPerStep.y*i));
+			Vector2 entity2Position = new Vector2(p2.x+(entity2VelocityPerStep.x*i), p2.y+(entity2VelocityPerStep.y*i));
+			
+			if (isCirclesIntersected(entity1Position, r1, entity2Position, r2))
 			{
-				double timeOfCollision = numberOfSteps*timeStep;
-				double timeAfterCollision = timeChange-timeOfCollision;
-				System.out.println(timeOfCollision + ", expected: 5");
+				double timeOfCollision = (i-1)*timeStep;
+				*/
+				/*Collided c1 = new Collided(timeOfCollision, delta);
+				c1.setCollisionPosition(entity1Position.x,entity1Position.y);
+				c1.setCollisionVelocity(v1.x, v1.y);
+				Collided c2 = new Collided(timeOfCollision, delta);
+				c2.setCollisionPosition(entity2Position.x,entity2Position.y);
+				c2.setCollisionVelocity(v2.x, v2.y);
+				
+				c1.setOtherCollided(c2);
+				c2.setOtherCollided(c1);
+				
+				e1.addComponent(c1);
+				e2.addComponent(c2);*/
+				//System.out.println("1:"+entity1VelocityPerStep + ", 2: "+entity2VelocityPerStep);
+				//System.out.println(numberOfSteps);
+				/*break;
 			}
-		}
-		
-		
-		//expected point of collision = 5,5
-		
-		/*length = sqrt(v.x * v.x + v.y * v.y);
-
-		// normalize vector
-		v.x /= length;
-		v.y /= length;
-
-		// increase vector size
-		v.x *= 10
-		v.y *= 10*/
+		}*/
 	}
-	
 	
 	public static ComponentType[] getRequiredComponents()
 	{

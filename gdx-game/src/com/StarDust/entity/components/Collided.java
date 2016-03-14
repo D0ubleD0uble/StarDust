@@ -1,34 +1,25 @@
 package com.StarDust.entity.components;
 
-import com.badlogic.gdx.math.Vector2;
+import com.StarDust.entity.components.collisions.*;
+import com.badlogic.gdx.math.*;
+import java.util.*;
 
 public class Collided extends Component
 {
-	Vector2 collisionPosition;
-	Vector2 collisionVelocity;
-	double totalDeltaTime;
-	double deltaTimeOfCollision;
+	List<Event> collideEvents;
 	
-	Collided otherCollided;
-	
-	public Collided(double deltaTimeOfCollision, double totalDeltaTime) {
+	public Collided() {
 		super(ComponentType.COLLIDED);
-		this.deltaTimeOfCollision = deltaTimeOfCollision;
-		this.totalDeltaTime = totalDeltaTime;
+		collideEvents = new ArrayList<Event>();
 	}
 	
-	public void setCollisionPosition(float x, float y)
+	public void addEvent(Event e)
 	{
-		this.collisionPosition = new Vector2(x, y);
+		collideEvents.add(e);
 	}
 	
-	public void setCollisionVelocity(float x, float y)
+	public List<Event> getEvents()
 	{
-		this.collisionVelocity = new Vector2(x, y);
-	}
-	
-	public void setOtherCollided(Collided otherCollided)
-	{
-		this.otherCollided = otherCollided;
+		return collideEvents;
 	}
 }

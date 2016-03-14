@@ -27,11 +27,15 @@ public class FollowCamera extends OrthographicCamera
 			if (e.hasComponents(getRequiredComponents()))
 			{
 				Position positionComponent = e.getComponent(ComponentType.POSITION);
-				Image imageComponent = e.getComponent(ComponentType.IMAGE);
 				totalXPosition += positionComponent.x;
-				totalXPosition += imageComponent.getImage().getWidth()/2;
 				totalYPosition += positionComponent.y;
-				totalYPosition += imageComponent.getImage().getHeight()/2;
+				
+				Image imageComponent = e.getComponent(ComponentType.IMAGE);
+				if (imageComponent != null)
+				{
+					totalXPosition += imageComponent.getImage().getWidth()/2;
+					totalYPosition += imageComponent.getImage().getHeight()/2;
+				}
 				numberOfFollowed++;
 			}
 		}
@@ -44,7 +48,7 @@ public class FollowCamera extends OrthographicCamera
 	
 	public static ComponentType[] getRequiredComponents()
 	{
-		return new ComponentType[] { ComponentType.CAMERAFOLLOW, ComponentType.IMAGE, ComponentType.POSITION };
+		return new ComponentType[] { ComponentType.CAMERAFOLLOW, ComponentType.POSITION };
 	}
 	
 	public void resize(float width, float height)
