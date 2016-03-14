@@ -38,7 +38,7 @@ public class Movement extends System
 		}
 	}
 	
-	public static ComponentType[] getRequiredComponents()
+	public ComponentType[] getRequiredComponents()
 	{
 		return new ComponentType[] { ComponentType.POSITION, ComponentType.VELOCITY};
 	}

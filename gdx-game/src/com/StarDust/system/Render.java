@@ -115,7 +115,7 @@ public class Render extends System
 		return new ComponentType[] { ComponentType.UICOMPONENT, ComponentType.POSITION};
 	}
 	
-	public static ComponentType[] getRequiredComponents()
+	public ComponentType[] getRequiredComponents()
 	{
 		// TODO: Implement this method
 		return null;

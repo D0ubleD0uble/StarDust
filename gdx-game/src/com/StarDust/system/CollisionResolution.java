@@ -1,9 +1,14 @@
 package com.StarDust.system;
 
-import com.StarDust.entity.*;
-import com.StarDust.entity.components.*;
-import java.util.*;
-import com.StarDust.entity.components.collisions.*;
+import java.util.List;
+
+import com.StarDust.entity.Entity;
+import com.StarDust.entity.components.Collided;
+import com.StarDust.entity.components.CollisionReaction;
+import com.StarDust.entity.components.ComponentType;
+import com.StarDust.entity.components.Position;
+import com.StarDust.entity.components.Velocity;
+import com.StarDust.entity.components.collisions.Event;
 
 public class CollisionResolution extends System
 {
@@ -41,7 +46,7 @@ public class CollisionResolution extends System
 		}
 	}
 	
-	public static ComponentType[] getRequiredComponents()
+	public ComponentType[] getRequiredComponents()
 	{
 		return new ComponentType[] { ComponentType.COLLIDED, ComponentType.POSITION, ComponentType.VELOCITY };
 	}
